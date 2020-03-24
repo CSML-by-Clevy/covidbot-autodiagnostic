@@ -1,0 +1,119 @@
+{
+  "id": "b200b366-64aa-48fc-9d76-2938494ed304",
+  "name": "Covid_auto_diag",
+  "description": null,
+  "default_flow": "Default",
+  "tags": [],
+  "flows": [
+    {
+      "name": "Default",
+      "description": "Default custom flow",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "diag_20200323",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "diag_20200323_algo",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_000",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_001",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_002",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_003",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_004",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_005",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_006",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_007",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_008",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_009",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_009b",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_010",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_011",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_012",
+      "commands": [],
+      "tags": []
+    }
+  ],
+  "files": [
+    {
+      "name": "préambule",
+      "description": null
+    },
+    {
+      "name": "preambuleV2",
+      "description": null
+    }
+  ],
+  "functions": [
+    {
+      "name": "norm_units",
+      "description": null,
+      "args": [],
+      "import_url": null,
+      "runtime": "nodejs10.x",
+      "handler": "index.handler",
+      "environment": {},
+      "app_id": null,
+      "version": null
+    }
+  ],
+  "apps": []
+}
