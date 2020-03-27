@@ -1,0 +1,33 @@
+start:
+	if (done == 1) {
+		remember done = 0
+		goto end
+	}
+	remember done = 1
+// Tout patient avec un seul symptôme parmi toux, mal de gorge, trouble de l’odorat
+// Au moins un facteur de gravité ou un facteur pronostique
+// Reponse: Votre situation ne relève probablement pas du Covid-19. Un avis médical est recommandé. Au moindre doute, appelez le 15.
+	remember hasTemp = 0
+	remember temp = 37
+	remember hasCaugh = 1
+	remember hasNoTaste = 0
+	remember hasPainfulThroat = 0
+	remember hasDiarrhea = 0
+	remember hasFatigue = 0
+	remember hasDailyNap = 0
+	remember hasFeedStruggle = 0
+	remember hasSOB = 0
+	remember age = 54
+	remember size = 183
+	remember weight = 83
+	remember hasCARDISSUE = 0
+	remember hasDiabetes = 0
+	remember hasCancer = 0
+	remember hasBreathingIllness = 0
+	remember hasKidneyFailure = 0
+	remember hasLiverIllness = 1
+	remember isPregnant = 0
+	remember hasImuneSystemFailure = 0
+	remember hasImmunosuppresseur = 0
+	remember location = "92400"
+	goto flow diag_20200323_algo

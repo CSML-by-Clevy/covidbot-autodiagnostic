@@ -4,17 +4,14 @@ start:
 		goto end
 	}
 	remember done = 1
-// Patient avec fièvre, ou toux + mal de gorge, ou toux + courbatures ou fièvre + diarrhée :
-// Tout patient sans facteur pronostique :
-// Sans facteur de gravité & <50 ans 
+// Tout patient avec fièvre et toux :
+// Tout patient avec un facteur pronostique ou plus
+// Un seul facteur de gravité mineur
+// Reponse : téléconsultation ou médecin généraliste ou visite à domicile
 
-// Réponse: nous vous conseillons de rester à votre domicile et
-// de contacter votre médecin en cas d’apparition de nouveaux symptômes. Vous pourrez
-// aussi utiliser à nouveau l’application pour réévaluer vos symptômes.
-	remember hasTemp = 0
-	remember temp = 0
+	remember hasTemp = 1
+	remember temp = 39
 	remember hasCaugh = 1
-	remember hasMusclePain = 1
 	remember hasNoTaste = 0
 	remember hasPainfulThroat = 0
 	remember hasDiarrhea = 0
@@ -22,14 +19,12 @@ start:
 	remember hasDailyNap = 0
 	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember howgood = "Bien"
-	remember othersymptoms = "non"
-	remember age = 34
+	remember age = 54
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
 	remember hasDiabetes = 0
-	remember hasCancer = 0
+	remember hasCancer = 1
 	remember hasBreathingIllness = 0
 	remember hasKidneyFailure = 0
 	remember hasLiverIllness = 0

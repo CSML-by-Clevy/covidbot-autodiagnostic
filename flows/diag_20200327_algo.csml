@@ -1,0 +1,338 @@
+start:
+	// CALCUL IMC
+	do sizem = size.to_float() / 100
+	do sizem2 = sizem.pow(2)
+	remember imc = weight.to_float() / sizem2
+
+	// Facteurs de gravité mineurs
+	do fgmineurs = 0
+	if (temp >= 39) do fgmineurs = fgmineurs + 1
+	if (hasDailyNap == 1) do fgmineurs = fgmineurs + 1
+
+	// Facteurs de gravité majeurs
+	do fgmajeurs = 0
+	if (hasSOB == 1) do fgmajeurs = fgmajeurs + 1
+	if (hasFeedStruggle == 1) do fgmajeurs = fgmajeurs + 1
+
+	do hasNoPronosticFactors = (imc <= 30 &&
+		hasCARDISSUE == 0 &&
+		hasDiabetes == 0 &&
+		hasCancer == 0 &&
+		hasBreathingIllness == 0 &&
+		hasKidneyFailure == 0 &&
+		hasLiverIllness == 0 &&
+		isPregnant != 1 &&
+		hasImuneSystemFailure != 1 &&
+		hasImmunosuppresseur != 1)
+
+//////////////////////////////////////////////////////////////
+// CALCULS DES NIVEAUX DE SYMPTOMES //////////////////////////
+//////////////////////////////////////////////////////////////
+
+	// Patients avec aucun symptome
+	if ((hasTemp == 0 || temp == 0 || (temp >= 35.5 && temp <= 37.7)) &&
+		hasCaugh == 0 &&
+		hasPainfulThroat == 0 &&
+		hasDiarrhea == 0 &&
+		hasFatigue == 0 &&
+		hasFeedStruggle == 0 &&
+		hasSOB == 0
+	) do symptomsLevel = 0
+
+	// Tout patient avec un seul symptôme parmi toux, mal de gorge, trouble de l’odorat
+	if (hasCaugh + hasPainfulThroat + hasNoTaste == 1) do symptomsLevel = 1
+
+	// Patient avec
+	// - fièvre
+	// - ou toux + mal de gorge
+	// - ou toux + trouble odorat
+	// - fièvre + diarrhée :
+	if (temp > 37.7 ||
+		(hasCaugh == 1 && hasPainfulThroat == 1) ||
+		(hasCaugh == 1 && hasNoTaste == 1) ||
+		(temp > 37.7 || hasDiarrhea == 1)
+	) do symptomsLevel = 2
+
+	// Tout patient avec fièvre et toux :
+	if (temp > 37.7 && hasCaugh == 1) do symptomsLevel = 3
+
+
+
+//////////////////////////////////////////////////////////////
+// CALCULS CAS UNIQUES ///////////////////////////////////////
+// SELON SYMPTOMES & FACTEURS GRAVITÉ ////////////////////////
+//////////////////////////////////////////////////////////////
+
+	if (age < 15) {
+		say "Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, **appelez le 15** 📞."
+		goto end
+	}
+
+	if (symptomsLevel == 0) {
+		say "**Votre situation ne relève probablement pas du Covid-19** ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. "
+		goto final
+	}
+
+	if (symptomsLevel == 1) {
+		// Au moins un facteur de gravité ou un facteur pronostique :
+		if (hasNoPronosticFactors == false ||
+		fgmineurs > 0 ||
+		fgmajeurs > 0
+		) {
+			say "**Votre situation ne relève probablement pas du Covid-19** ✅. Un avis médical est recommandé 👨‍⚕️. Au moindre doute, **appelez le 15** 📞."
+			goto final
+		} else {
+			say "**Votre situation ne relève probablement pas du Covid-19** ✅. Consultez votre médecin au moindre doute 👨‍⚕️."
+			goto final
+		}
+	}
+
+	if (symptomsLevel == 3) {
+		// Tout patient avec ou sans facteur pronostique avec au moins un facteur de gravité majeur
+		if (fgmajeurs > 0) {
+			say " 🚨 **Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide**."
+			say Typing(2000)
+			say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
+			say Typing(2000)
+			say " Composez le **15**. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+			goto final
+		}
+		// Tout patient sans facteur pronostique
+		if (hasNoPronosticFactors == true) {
+			say "⚠️ **Votre état nécessite un avis médical**"
+			say Typing(2000)
+			say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
+			say Typing(2000)
+			say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+			say {
+				"content_type": "link",
+				"url": "https://maladiecoronavirus.fr/teleconsultation",
+				"text":"Services de Téléconsultation",
+				"title":"Services de Téléconsultation"
+			}
+			say {
+				"content_type": "link",
+				"url": "https://maladiecoronavirus.fr/permanences",
+				"text":"Permanences de soins ambulatoires par région (PDSA)",
+				"title":"Permanences de soins ambulatoires par région (PDSA)"
+			}
+			goto final
+			// TODO: IL MANQUE UN ELSE ?!
+		}
+		// Tout patient avec un facteur pronostique ou plus
+		if (hasNoPronosticFactors == false) {
+			// Aucun facteur de gravité
+			if (fgmineurs + fgmajeurs == 0) {
+				say "⚠️ **Votre état nécessite un avis médical**"
+				say Typing(2000)
+				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
+				say Typing(2000)
+				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/teleconsultation",
+					"text":"Services de Téléconsultation",
+					"title":"Services de Téléconsultation"
+				}
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/permanences",
+					"text":"Permanences de soins ambulatoires par région (PDSA)",
+					"title":"Permanences de soins ambulatoires par région (PDSA)"
+				}
+
+				say Typing(2000)
+				say "Appelez le 15 si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				goto final
+			}
+			// Un seul facteur de gravité mineur
+			if (fgmineurs == 1) {
+				say "⚠️ **Votre état nécessite un avis médical**"
+				say Typing(2000)
+				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
+				say Typing(2000)
+				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/teleconsultation",
+					"text":"Services de Téléconsultation",
+					"title":"Services de Téléconsultation"
+				}
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/permanences",
+					"text":"Permanences de soins ambulatoires par région (PDSA)",
+					"title":"Permanences de soins ambulatoires par région (PDSA)"
+				}
+				say Typing(2000)
+				say "Appelez le **15** si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				goto final
+			}
+			// Au moins deux facteurs de gravité mineurs
+			if (fgmineurs >= 2) {
+				say " 🚨 **Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide**."
+				say Typing(2000)
+				say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
+				say Typing(2000)
+				say " **Composez le 15**. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+				goto final
+			}
+		}
+	}
+
+		if (symptomsLevel == 2) {
+		// Tout patient avec ou sans facteur pronostique avec au moins un facteur de gravité majeur
+		if (fgmajeurs > 0) {
+			say " 🚨 **Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide**."
+			say Typing(2000)
+			say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
+			say Typing(2000)
+			say " **Composez le 15**. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+			say Typing(2000)
+			goto final
+		}
+		// Tout patient sans facteur pronostique
+		if (hasNoPronosticFactors == true) {
+			// Sans facteur de gravité & <50 ans
+			if (age < 50 && fgmajeurs + fgmineurs == 0) {
+				say "Nous vous conseillons de **rester à votre domicile** et de **contacter votre médecin en cas d’apparition de nouveaux symptômes** 👨‍⚕️."
+				say Typing(2000)
+				say "Vous pourrez aussi utiliser à nouveau l’application 🤖 pour réévaluer vos symptômes 🌡."
+				goto final
+			}
+			// Sans facteur de gravité & 50-69 ans, ou avec au moins un facteur de gravité mineur
+			if ((age >= 50 && age < 69 && fgmajeurs == 0 && fgmineurs == 0) || fgmineurs >= 1) {
+				say "⚠️ **Votre état nécessite un avis médical**"
+				say Typing(2000)
+				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
+				say Typing(2000)
+				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/teleconsultation",
+					"text":"Services de Téléconsultation",
+					"title":"Services de Téléconsultation"
+				}
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/permanences",
+					"text":"Permanences de soins ambulatoires par région (PDSA)",
+					"title":"Permanences de soins ambulatoires par région (PDSA)"
+				}
+				goto final
+			}
+			// TODO: IL MANQUE UN ELSE ?!
+		}
+		// Tout patient avec un facteur pronostique ou plus
+		if (hasNoPronosticFactors == false) {
+			// Aucun facteur de gravité
+			if (fgmineurs + fgmajeurs == 0) {
+				say "⚠️ **Votre état nécessite un avis médical**"
+				say Typing(2000)
+				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
+				say Typing(2000)
+				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/teleconsultation",
+					"text":"Services de Téléconsultation",
+					"title":"Services de Téléconsultation"
+				}
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/permanences",
+					"text":"Permanences de soins ambulatoires par région (PDSA)",
+					"title":"Permanences de soins ambulatoires par région (PDSA)"
+				}
+				say Typing(2000)
+				say "**Appelez le 15** si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				goto final
+			}
+			// Un seul facteur de gravité mineur
+			if (fgmineurs == 1) {
+				say "⚠️ **Votre état nécessite un avis médical**"
+				say Typing(2000)
+				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
+				say Typing(2000)
+				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/teleconsultation",
+					"text":"Services de Téléconsultation",
+					"title":"Services de Téléconsultation"
+				}
+				say {
+					"content_type": "link",
+					"url": "https://maladiecoronavirus.fr/permanences",
+					"text":"Permanences de soins ambulatoires par région (PDSA)",
+					"title":"Permanences de soins ambulatoires par région (PDSA)"
+				}
+				say Typing(2000)
+				say "**Appelez le 15** si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				goto final
+			}
+			// Au moins deux facteurs de gravité mineurs
+			if (fgmineurs >= 2) {
+				say " 🚨 **Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide**."
+				say Typing(2000)
+				say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
+				say Typing(2000)
+				say " **Composez le 15**. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+				goto final
+			}
+		}
+	}
+	//Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
+	say "Malheureusement, nous n'avons pas assez de donnée pour vous réaliser un autodiagnostic. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+	goto final
+
+final:
+	//say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
+  say Typing(2000)
+  say "Pour vous protéger et protéger les autres, dans la mesure du possible, **restez chez vous** et limitez les contacts avec d'autres personnes."
+  say Typing(2000)
+  say {
+    "content_type": "link",
+    "url": "https://covid19-medicaments.com",
+    "text":"Pour vérifier si un médicament pourrait présenter un risque potentiel d'aggraver vos symptômes",
+    "title":"Pour vérifier si un médicament pourrait présenter un risque potentiel d'aggraver vos symptômes, cliquez-ici :"
+  }
+  say {
+    "content_type": "link",
+    "url": "https://www.gouvernement.fr/info-coronavirus",
+    "text":"Vous avez des questions additionnelles, appelez le 0800 130 000, ou suivez l'actualité sur : ",
+    "title":"Vous avez des questions additionnelles, appelez le 0800 130 000, ou suivez l'actualité sur : "
+  }
+
+				// goto end
+
+/*
+	say "Voici l'ensemble de vos réponses :"
+	say Typing(2000)
+	say "hasTemp : {{hasTemp}}"
+	say "temp : {{temp}}"
+	say "hasCaugh : {{hasCaugh}}"
+	say "hasNoTaste : {{hasNoTaste}}"
+	say "hasPainfulThroat : {{hasPainfulThroat}}"
+	say "hasDiarrhea : {{hasDiarrhea}}"
+	say "hasFatigue : {{hasFatigue}}"
+	say "hasDailyNap : {{hasDailyNap}}"
+	say "hasFeedStruggle : {{hasFeedStruggle}}"
+	say "hasSOB : {{hasSOB}}"
+	say "age : {{age}}"
+	say "size : {{size}}"
+	say "weight : {{weight}}"
+	say "IMC : {{imc}}"
+	say "hasCARDISSUE : {{hasCARDISSUE}}"
+	say "hasDiabetes : {{hasDiabetes}}"
+	say "hasCancer : {{hasCancer}}"
+	say "hasBreathingIllness : {{hasBreathingIllness}}"
+	say "hasKidneyFailure : {{hasKidneyFailure}}"
+	say "hasLiverIllness : {{hasLiverIllness}}"
+	say "isPregnant : {{isPregnant}}"
+	say "hasImuneSystemFailure : {{hasImuneSystemFailure}}"
+	say "hasImmunosuppresseur : {{hasImmunosuppresseur}}"
+	say "location : {{location}}"
+*/
+
+	goto end
