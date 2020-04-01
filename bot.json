@@ -104,22 +104,6 @@
   ],
   "functions": [
     {
-      "name": "ddb_covid",
-      "description": null,
-      "args": [],
-      "import_url": null,
-      "runtime": "nodejs10.x",
-      "handler": "index.handler",
-      "environment": {
-        "TABLE_NAME": "",
-        "ACCESS_KEY_ID": "",
-        "SECRET_ACCESS_KEY": "",
-        "REGION": ""
-      },
-      "app_id": null,
-      "version": null
-    },
-    {
       "name": "norm_units",
       "description": null,
       "args": [],
