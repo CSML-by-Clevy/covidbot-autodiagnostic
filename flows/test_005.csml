@@ -4,28 +4,29 @@ start:
 		goto end
 	}
 	remember done = 1
-// Patient avec fièvre, ou toux + mal de gorge, ou toux + courbatures ou fièvre + diarrhée :
-// Tout patient avec ou sans facteur pronostique avec au moins un facteur de gravité majeur
-// Reponse: appel 15
+// 3.4 Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie))
+// Tout patient sans facteur pronostique
+// Si pas de facteur de gravité mineur
+// Reponse :   Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
+// Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin.
+// Nous vous conseillons de rester à votre domicile.
+
 	remember hasTemp = 0
-	remember temp = 0
+	remember temp = 37
 	remember hasCaugh = 1
-	remember hasMusclePain = 1
-	remember hasNoTaste = 0
-	remember hasPainfulThroat = 0
+	remember hasNoTaste = 1
+	remember hasPainfulThroatMuscle = 0
 	remember hasDiarrhea = 0
 	remember hasFatigue = 0
 	remember hasDailyNap = 0
-	remember hasFeedStruggle = 1
+	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember howgood = "Bien"
-	remember othersymptoms = "non"
-	remember age = 54
+	remember age = 45
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
 	remember hasDiabetes = 0
-	remember hasCancer = 1
+	remember hasCancer = 0
 	remember hasBreathingIllness = 0
 	remember hasKidneyFailure = 0
 	remember hasLiverIllness = 0
@@ -33,4 +34,4 @@ start:
 	remember hasImuneSystemFailure = 0
 	remember hasImmunosuppresseur = 0
 	remember location = "92400"
-	goto flow diag_20200323_algo
+	goto flow diag_20200330_algo

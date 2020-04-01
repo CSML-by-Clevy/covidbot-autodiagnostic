@@ -4,22 +4,23 @@ start:
 		goto end
 	}
 	remember done = 1
-// Tout patient avec aucun symptôme 
-// Reponse: Votre situation ne relève probablement pas du Covid-19. N’hésitez pas à contacter votre médecin en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation. Pour toute information concernant le Covid-19, composer le 0 800 130 000.
+// 3.5 Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
+// Pas de facteur pronostique
+// Reponse : Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
+// Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile.
+
+
 	remember hasTemp = 0
 	remember temp = 37
-	remember hasCaugh = 0
-	remember hasMusclePain = 0
+	remember hasCaugh = 1
 	remember hasNoTaste = 0
-	remember hasPainfulThroat = 0
+	remember hasPainfulThroatMuscle = 0
 	remember hasDiarrhea = 0
 	remember hasFatigue = 0
 	remember hasDailyNap = 0
 	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember howgood = "Bien"
-	remember othersymptoms = "non"
-	remember age = 15
+	remember age = 45
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
@@ -32,4 +33,4 @@ start:
 	remember hasImuneSystemFailure = 0
 	remember hasImmunosuppresseur = 0
 	remember location = "92400"
-	goto flow diag_20200323_algo
+	goto flow diag_20200330_algo

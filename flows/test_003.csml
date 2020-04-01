@@ -4,24 +4,23 @@ start:
 		goto end
 	}
 	remember done = 1
-// Patient avec fièvre, ou toux + mal de gorge, ou toux + courbatures ou fièvre + diarrhée :
-// Tout patient avec un facteur pronostique ou plus 
-// Un seul facteur de gravité mineur
-// Reponse: téléconsultation ou médecin généraliste ou visite à domicile
-	remember hasTemp = 0
-	remember temp = 0
+// Tout patient avec fièvre et toux :
+// Tout patient avec un facteur pronostique ou plus
+// Si un ou deux facteurs de gravité mineurs
+// Reponse : Votre situation peut relever d’un COVID 19.
+// Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)
+
+	remember hasTemp = 1
+	remember temp = 38
 	remember hasCaugh = 1
-	remember hasMusclePain = 1
 	remember hasNoTaste = 0
-	remember hasPainfulThroat = 0
+	remember hasPainfulThroatMuscle = 0
 	remember hasDiarrhea = 0
 	remember hasFatigue = 0
-	remember hasDailyNap = 0
+	remember hasDailyNap = 1
 	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember howgood = "Mal"
-	remember othersymptoms = "non"
-	remember age = 54
+	remember age = 45
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
@@ -34,4 +33,4 @@ start:
 	remember hasImuneSystemFailure = 0
 	remember hasImmunosuppresseur = 0
 	remember location = "92400"
-	goto flow diag_20200323_algo
+	goto flow diag_20200330_algo

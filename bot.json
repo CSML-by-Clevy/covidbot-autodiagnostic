@@ -1,6 +1,6 @@
 {
-  "id": "b200b366-64aa-48fc-9d76-2938494ed304",
-  "name": "Covid_auto_diag",
+  "id": "e8dfbcb9-d8d6-49ec-af85-57f348e40518",
+  "name": "PROD_autodiag_Workchat",
   "description": null,
   "default_flow": "Default",
   "tags": [],
@@ -12,12 +12,12 @@
       "tags": []
     },
     {
-      "name": "diag_20200323",
+      "name": "diag_20200330",
       "commands": [],
       "tags": []
     },
     {
-      "name": "diag_20200323_algo",
+      "name": "diag_20200330_algo",
       "commands": [],
       "tags": []
     },
@@ -72,11 +72,6 @@
       "tags": []
     },
     {
-      "name": "test_009b",
-      "commands": [],
-      "tags": []
-    },
-    {
       "name": "test_010",
       "commands": [],
       "tags": []
@@ -88,6 +83,11 @@
     },
     {
       "name": "test_012",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "test_013",
       "commands": [],
       "tags": []
     }
