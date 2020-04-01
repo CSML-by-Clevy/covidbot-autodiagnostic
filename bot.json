@@ -12,102 +12,93 @@
       "tags": []
     },
     {
-      "name": "diag_20200323",
+      "name": "diag_202003230",
       "commands": [],
       "tags": []
     },
     {
-      "name": "diag_20200323_algo",
-      "commands": [],
-      "tags": []
-    },{
-      "name": "diag_20200327",
+      "name": "diag_20200330_algo",
       "commands": [],
       "tags": []
     },
     {
-      "name": "diag_20200327_algo",
+      "name": "test_3_1",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_000",
+      "name": "test_3_2",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_001",
+      "name": "test_3_3_1",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_002",
+      "name": "test_3_3_2",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_003",
+      "name": "test_3_3_3",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_004",
+      "name": "test_3_4_1",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_005",
+      "name": "test_3_4_2",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_006",
+      "name": "test_3_4_3",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_007",
+      "name": "test_3_4_4",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_008",
+      "name": "test_3_4_5",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_009",
+      "name": "test_3_4_6",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_009b",
+      "name": "test_3_5_1",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_010",
+      "name": "test_3_5_2",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_011",
-      "commands": [],
-      "tags": []
-    },
-    {
-      "name": "test_012",
+      "name": "test_3_6",
       "commands": [],
       "tags": []
     }
   ],
   "files": [
     {
-      "name": "préambule",
+      "name": "préambule.png",
       "description": null
     },
     {
-      "name": "preambuleV2",
+      "name": "preambuleV2.png",
       "description": null
     }
   ],

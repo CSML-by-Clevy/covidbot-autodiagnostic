@@ -4,24 +4,22 @@ start:
 		goto end
 	}
 	remember done = 1
-// Patient avec fièvre, ou toux + mal de gorge, ou toux + trouble odorat ou fièvre + diarrhée
-// Tout patient sans facteur pronostique :
-// Sans facteur de gravité & <50 ans
+// 3.1
+// Patient de moins de 15 ans
+// Réponse : Prenez contact avec votre médecin généraliste au moindre doute.
+// Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, appeler le 15.
 
-// Réponse: nous vous conseillons de rester à votre domicile et
-// de contacter votre médecin en cas d’apparition de nouveaux symptômes. Vous pourrez
-// aussi utiliser à nouveau l’application pour réévaluer vos symptômes.
 	remember hasTemp = 0
-	remember temp = 0
-	remember hasCaugh = 1
-	remember hasNoTaste = 1
-	remember hasPainfulThroat = 0
+	remember temp = 37
+	remember hasCaugh = 0
+	remember hasNoTaste = 0
+	remember hasPainfulThroatMuscle = 0
 	remember hasDiarrhea = 0
 	remember hasFatigue = 0
 	remember hasDailyNap = 0
 	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember age = 34
+	remember age = 15
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
@@ -34,4 +32,4 @@ start:
 	remember hasImuneSystemFailure = 0
 	remember hasImmunosuppresseur = 0
 	remember location = "92400"
-	goto flow diag_20200323_algo
+	goto flow diag_20200330_algo

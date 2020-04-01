@@ -6,20 +6,21 @@ start:
 	remember done = 1
 // Tout patient avec fièvre et toux :
 // Tout patient avec un facteur pronostique ou plus
-// Les deux facteurs de gravité mineurs
-// Reponse : appel 15
+// Si un ou deux facteurs de gravité mineurs
+// Reponse : Votre situation peut relever d’un COVID 19.
+// Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)
 
 	remember hasTemp = 1
-	remember temp = 39
+	remember temp = 38
 	remember hasCaugh = 1
 	remember hasNoTaste = 0
-	remember hasPainfulThroat = 0
+	remember hasPainfulThroatMuscle = 0
 	remember hasDiarrhea = 0
 	remember hasFatigue = 0
 	remember hasDailyNap = 1
 	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember age = 54
+	remember age = 45
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
@@ -32,4 +33,4 @@ start:
 	remember hasImuneSystemFailure = 0
 	remember hasImmunosuppresseur = 0
 	remember location = "92400"
-	goto flow diag_20200323_algo
+	goto flow diag_20200330_algo

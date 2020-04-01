@@ -4,26 +4,28 @@ start:
 		goto end
 	}
 	remember done = 1
-// Tout patient avec fièvre et toux :
-// Tout patient avec un facteur pronostique ou plus
-// Aucun facteur de gravité
-// Reponse :  téléconsultation ou médecin généraliste ou visite à domicile
-	remember hasTemp = 1
+// 3.5 Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
+// Pas de facteur pronostique
+// Reponse : Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
+// Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile.
+
+
+	remember hasTemp = 0
 	remember temp = 38
 	remember hasCaugh = 1
 	remember hasNoTaste = 0
-	remember hasPainfulThroat = 0
+	remember hasPainfulThroatMuscle = 0
 	remember hasDiarrhea = 0
 	remember hasFatigue = 0
 	remember hasDailyNap = 0
 	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember age = 54
+	remember age = 45
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
 	remember hasDiabetes = 0
-	remember hasCancer = 1
+	remember hasCancer = 0
 	remember hasBreathingIllness = 0
 	remember hasKidneyFailure = 0
 	remember hasLiverIllness = 0
@@ -31,4 +33,4 @@ start:
 	remember hasImuneSystemFailure = 0
 	remember hasImmunosuppresseur = 0
 	remember location = "92400"
-	goto flow diag_20200323_algo
+	goto flow diag_202003230_algo

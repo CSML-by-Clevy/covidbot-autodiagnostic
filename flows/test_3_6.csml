@@ -4,27 +4,27 @@ start:
 		goto end
 	}
 	remember done = 1
-// Tout patient avec fièvre et toux :
-// Tout patient avec un facteur pronostique ou plus
-// Un seul facteur de gravité mineur
-// Reponse : téléconsultation ou médecin généraliste ou visite à domicile
+// 3.6 Tout patient sans fièvre ni aucun autre symptôme
+// Reponse :Votre situation ne relève probablement pas du COVID 19.
+// N’hésitez pas à contacter votre médecin en cas de doute.
+// Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation. Pour toute information concernant le COVID 19, composer le 0 800 130 000.
 
-	remember hasTemp = 1
-	remember temp = 39
+	remember hasTemp = 0
+	remember temp = 38
 	remember hasCaugh = 1
 	remember hasNoTaste = 0
-	remember hasPainfulThroat = 0
+	remember hasPainfulThroatMuscle = 0
 	remember hasDiarrhea = 0
 	remember hasFatigue = 0
 	remember hasDailyNap = 0
 	remember hasFeedStruggle = 0
 	remember hasSOB = 0
-	remember age = 54
+	remember age = 45
 	remember size = 183
 	remember weight = 83
 	remember hasCARDISSUE = 0
 	remember hasDiabetes = 0
-	remember hasCancer = 1
+	remember hasCancer = 0
 	remember hasBreathingIllness = 0
 	remember hasKidneyFailure = 0
 	remember hasLiverIllness = 0
@@ -32,4 +32,4 @@ start:
 	remember hasImuneSystemFailure = 0
 	remember hasImmunosuppresseur = 0
 	remember location = "92400"
-	goto flow diag_20200323_algo
+	goto flow diag_202003230_algo
