@@ -1,0 +1,36 @@
+start:
+	if (done == 1) {
+		remember done = 0
+		goto end
+	}
+	remember done = 1
+// 3.4 Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie))
+// Tout patient avec un facteur pronostique ou plus
+// Si au moins deux facteurs de gravité mineur
+// Reponse :   Votre situation peut relever d’un COVID 19.
+// Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile. Si vous n'arrivez pas à obtenir de consultation, appelez le 15..
+
+	remember hasTemp = 0
+	remember temp = 35
+	remember hasCaugh = 1
+	remember hasNoTaste = 1
+	remember hasPainfulThroatMuscle = 0
+	remember hasDiarrhea = 0
+	remember hasFatigue = 0
+	remember hasDailyNap = 1
+	remember hasFeedStruggle = 0
+	remember hasSOB = 0
+	remember age = 45
+	remember size = 183
+	remember weight = 83
+	remember hasCARDISSUE = 0
+	remember hasDiabetes = 0
+	remember hasCancer = 1
+	remember hasBreathingIllness = 0
+	remember hasKidneyFailure = 0
+	remember hasLiverIllness = 0
+	remember isPregnant = 0
+	remember hasImuneSystemFailure = 0
+	remember hasImmunosuppresseur = 0
+	remember location = "92400"
+	goto flow diag_20200330_algo

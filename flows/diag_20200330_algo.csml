@@ -33,7 +33,7 @@ start:
 	// Patients avec aucun symptome
 	if ((hasTemp == 0 || temp == 0 || (temp >= 35.5 && temp <= 37.7)) &&
 		hasCaugh == 0 &&
-		hasPainfulThroatMuscleMuscle == 0 &&
+		hasPainfulThroatMuscle == 0 &&
 		hasDiarrhea == 0 &&
 		hasFatigue == 0 &&
 		hasFeedStruggle == 0 &&
@@ -41,7 +41,7 @@ start:
 	) do symptomsLevel = 0
 
 	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
-	if (hasCaugh + hasPainfulThroatMuscleMuscle + hasNoTaste == 1 && temp >= 35.5 && temp <= 37.7) {
+	if (hasCaugh + hasPainfulThroatMuscle + hasNoTaste == 1 && temp >= 35.5 && temp <= 37.7) {
 		do symptomsLevel = 1
 	}
 
@@ -52,7 +52,7 @@ start:
 	// ---- ou toux et douleurs
 	// ---- ou toux et anosmie
 	if (temp > 37.7 ||
-		(hasCaugh == 1 && hasPainfulThroatMuscleMuscle == 1) ||
+		(hasCaugh == 1 && hasPainfulThroatMuscle == 1) ||
 		(hasCaugh == 1 && hasNoTaste == 1) ||
 		(hasDiarrhea == 1)
 	) do symptomsLevel = 2
@@ -68,55 +68,50 @@ start:
 //////////////////////////////////////////////////////////////
 
 	if (age < 15) {
-		say "Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, **appelez le 15** 📞."
+		say "Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, *appelez le 15* 📞."
 		goto end
 	}
 
 	// Tout patient avec au moins un facteur de gravité majeur
 	if (fgmajeurs > 0) {
-		say " 🚨 **Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide**."
+		say " 🚨 *Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide*."
 		say Typing(2000)
 		say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
 		say Typing(2000)
-		say " **Composez le 15**. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+		say " *Composez le 15*. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
 		goto final
 
 	}
 
 	if (symptomsLevel == 0) {
-		say "**Votre situation ne relève probablement pas du Covid-19** ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. "
+		say "*Votre situation ne relève probablement pas du Covid-19* ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. "
 		goto final
 	}
 
 	if (symptomsLevel == 1) {
 		// Au moins un facteur pronostique
 		if (hasNoPronosticFactors == false) {
-			say "**Votre situation ne relève probablement pas du Covid-19** ✅. Un avis médical est recommandé 👨‍⚕️. Au moindre doute, **appelez le 15** 📞."
+			say "⚠️ *Votre situation peut relever d’un COVID 19.*"
+			say Typing(2000)
+			say "Un avis médical est recommandé."
+			say Typing(2000)
+			say "Au moindre doute, appelez le 15. Nous vous conseillons de rester à votre domicile."
+ 
 			goto final
 		} else {
-			say "**Votre situation ne relève probablement pas du Covid-19** ✅."
+			say "Votre situation peut relever d’un COVID 19 qu’il faut surveiller."
+			say Typing(2000)
 			say "Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile."
 			goto final
 		}
 	}
 
 	if (symptomsLevel == 3) {
-		// // Tout patient avec ou sans facteur pronostique avec au moins un facteur de gravité majeur
-		// if (fgmajeurs > 0) {
-		// 	say " 🚨 **Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide**."
-		// 	say Typing(2000)
-		// 	say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
-		// 	say Typing(2000)
-		// 	say " Composez le **15**. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
-		// 	goto final
-		// }
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			say "⚠️ **Votre état nécessite un avis médical**"
+			say "⚠️ *Votre situation peut relever d’un COVID 19.*"
 			say Typing(2000)
-			say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
-			say Typing(2000)
-			say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+			say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)."
 			say Url("https://maladiecoronavirus.fr/teleconsultation",
 				text="Services de Téléconsultation")
 			say Url("https://maladiecoronavirus.fr/permanences",
@@ -126,14 +121,10 @@ start:
 		// Tout patient avec un facteur pronostique ou plus
 		if (hasNoPronosticFactors == false) {
 			// Si un ou deux facteurs de gravité mineurs
-			// INCOHERENCE : quid de 0 facteur de gravité ?
-			// INCOHERENCE : il faut mettre quoi si 2 facteur de gravité mineur ?
 			if (fgmineurs <= 1) {
-				say "⚠️ **Votre état nécessite un avis médical**"
+				say "⚠️ *Votre situation peut relever d’un COVID 19.*"
 				say Typing(2000)
-				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
-				say Typing(2000)
-				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)."
 				say Url("https://maladiecoronavirus.fr/teleconsultation",
 					text="Services de Téléconsultation")
 				say Url("https://maladiecoronavirus.fr/permanences",
@@ -142,81 +133,82 @@ start:
 			}
 			// Avec au moins deux facteurs de gravité mineurs
 			if (fgmineurs > 1) {
-				say "⚠️ **Votre état nécessite un avis médical**"
+				say "*⚠️Votre situation peut relever d’un COVID 19 et nécessite un avis médical*"
 				say Typing(2000)
-				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
+				say "*Ne vous déplacez pas au cabinet*, appelez pour demander conseil avant votre venue."
 				say Typing(2000)
-				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un *service de téléconsultation*. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
 				say Url("https://maladiecoronavirus.fr/teleconsultation",
 					text="Services de Téléconsultation")
 				say Url("https://maladiecoronavirus.fr/permanences",
 					text="Permanences de soins ambulatoires par région (PDSA)")
 				say Typing(2000)
-				say "Appelez le **15** si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				say "📞 Appelez le *15* si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
 				goto final
 			}
 		}
 	}
-
-		if (symptomsLevel == 2) {
+	if (symptomsLevel == 2) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
 			// Si pas de facteur de gravité mineur
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
-					say "Votre situation peut relever d’un COVID 19 qu’il faut surveiller."
-					say "Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin.
-					Nous vous conseillons de rester à votre domicile."
+					say "*Votre situation peut relever d’un COVID 19 qu’il faut surveiller.*"
+          say Typing(2000)
+					say "Si de nouveaux symptômes apparaissent, *refaites le test ou consultez votre médecin*. Nous vous conseillons de rester à votre domicile."
 				} else {
-					say "Votre situation peut relever d’un COVID 19."
-					say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile."
-					say "Appelez le 15 si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+					say "⚠️ *Votre situation peut relever d’un COVID 19.*"
+					say Typing(2000)
+          say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
+					say Typing(2000)
+          say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
 				}
 			}
 			// Sinon (1 ou plusieurs facteurs de gravité mineurs)
 			else if (fgmineurs >= 1) {
-				say "Votre situation peut relever d’un COVID 19."
-				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile."
-				say "Appelez le 15 si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
-			}
+					say "⚠️ *Votre situation peut relever d’un COVID 19.*"
+					say Typing(2000)
+          say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
+					say Typing(2000)
+          say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+				}
 		}
 		// Tout patient avec un facteur pronostique ou plus
 		if (hasNoPronosticFactors == false) {
 			// Si zéro ou un facteur de gravité mineur
-			if (fgmineurs + fgmajeurs == 0) {
-				say "⚠️ **Votre état nécessite un avis médical**"
+			if (fgmineurs == 0) {
+				say "⚠️ *Votre situation peut relever d’un COVID 19.*"
 				say Typing(2000)
-				say "**Ne vous déplacez pas au cabinet**, appelez pour demander conseil avant votre venue."
-				say Typing(2000)
-				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un **service de téléconsultation**. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
+				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile."
 				say Url("https://maladiecoronavirus.fr/teleconsultation",
 					text="Services de Téléconsultation")
 				say Url("https://maladiecoronavirus.fr/permanences",
 					text="Permanences de soins ambulatoires par région (PDSA)")
 				say Typing(2000)
-				say "**Appelez le 15** si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
 				goto final
 			}
 			// Au moins deux facteurs de gravité mineurs
 			if (fgmineurs >= 2) {
-				say " 🚨 **Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide**."
+				say "⚠️ *Votre situation peut relever d’un COVID 19.*"
 				say Typing(2000)
-				say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
+				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile."
 				say Typing(2000)
-				say " **Composez le 15**. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+				say "Si vous n'arrivez pas à obtenir de consultation, appelez le 15."
 				goto final
 			}
 		}
 	}
 	//Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
-	say "Malheureusement, nous n'avons pas assez de donnée pour vous réaliser un autodiagnostic. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+	say "Malheureusement, *nous n'avons pas assez de donnée pour vous réaliser un autodiagnostic*. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
 	goto final
 
 final:
 	//say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
   say Typing(2000)
-  say "Pour vous protéger et protéger les autres, dans la mesure du possible, **restez chez vous** et limitez les contacts avec d'autres personnes."
+  say "Pour vous protéger et protéger les autres, dans la mesure du possible, *restez chez vous* et *limitez les contacts avec d'autres personnes.*"
   say Typing(2000)
   say Url("https://covid19-medicaments.com",
     text="Pour vérifier si un médicament pourrait présenter un risque potentiel d'aggraver vos symptômes")

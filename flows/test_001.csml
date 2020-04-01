@@ -1,0 +1,33 @@
+start:
+	if (done == 1) {
+		remember done = 0
+		goto end
+	}
+	remember done = 1
+// 3.2. Tout patient avec au moins un facteur de gravité majeur
+// Reponse : Appelez le 15.
+
+	remember hasTemp = 0
+	remember temp = 37
+	remember hasCaugh = 0
+	remember hasNoTaste = 0
+	remember hasPainfulThroatMuscle = 0
+	remember hasDiarrhea = 0
+	remember hasFatigue = 0
+	remember hasDailyNap = 0
+	remember hasFeedStruggle = 0
+	remember hasSOB = 1
+	remember age = 45
+	remember size = 183
+	remember weight = 83
+	remember hasCARDISSUE = 0
+	remember hasDiabetes = 0
+	remember hasCancer = 0
+	remember hasBreathingIllness = 0
+	remember hasKidneyFailure = 0
+	remember hasLiverIllness = 0
+	remember isPregnant = 0
+	remember hasImuneSystemFailure = 0
+	remember hasImmunosuppresseur = 0
+	remember location = "92400"
+	goto flow diag_20200330_algo

@@ -1,0 +1,35 @@
+start:
+	if (done == 1) {
+		remember done = 0
+		goto end
+	}
+	remember done = 1
+// 3.1
+// Patient de moins de 15 ans
+// Réponse : Prenez contact avec votre médecin généraliste au moindre doute.
+// Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, appeler le 15.
+
+	remember hasTemp = 0
+	remember temp = 37
+	remember hasCaugh = 0
+	remember hasNoTaste = 0
+	remember hasPainfulThroatMuscle = 0
+	remember hasDiarrhea = 0
+	remember hasFatigue = 0
+	remember hasDailyNap = 0
+	remember hasFeedStruggle = 0
+	remember hasSOB = 0
+	remember age = 14
+	remember size = 183
+	remember weight = 83
+	remember hasCARDISSUE = 0
+	remember hasDiabetes = 0
+	remember hasCancer = 0
+	remember hasBreathingIllness = 0
+	remember hasKidneyFailure = 0
+	remember hasLiverIllness = 0
+	remember isPregnant = 0
+	remember hasImuneSystemFailure = 0
+	remember hasImmunosuppresseur = 0
+	remember location = "92400"
+	goto flow diag_20200330_algo

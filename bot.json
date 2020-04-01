@@ -1,6 +1,6 @@
 {
-  "id": "b200b366-64aa-48fc-9d76-2938494ed304",
-  "name": "Covid_auto_diag",
+  "id": "e8dfbcb9-d8d6-49ec-af85-57f348e40518",
+  "name": "PROD_autodiag_Workchat",
   "description": null,
   "default_flow": "Default",
   "tags": [],
@@ -12,7 +12,7 @@
       "tags": []
     },
     {
-      "name": "diag_202003230",
+      "name": "diag_20200330",
       "commands": [],
       "tags": []
     },
@@ -22,87 +22,103 @@
       "tags": []
     },
     {
-      "name": "test_3_1",
+      "name": "test_000",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_2",
+      "name": "test_001",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_3_1",
+      "name": "test_002",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_3_2",
+      "name": "test_003",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_3_3",
+      "name": "test_004",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_4_1",
+      "name": "test_005",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_4_2",
+      "name": "test_006",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_4_3",
+      "name": "test_007",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_4_4",
+      "name": "test_008",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_4_5",
+      "name": "test_009",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_4_6",
+      "name": "test_010",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_5_1",
+      "name": "test_011",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_5_2",
+      "name": "test_012",
       "commands": [],
       "tags": []
     },
     {
-      "name": "test_3_6",
+      "name": "test_013",
       "commands": [],
       "tags": []
     }
   ],
   "files": [
     {
-      "name": "préambule.png",
+      "name": "préambule",
       "description": null
     },
     {
-      "name": "preambuleV2.png",
+      "name": "preambuleV2",
       "description": null
     }
   ],
   "functions": [
+    {
+      "name": "ddb_covid",
+      "description": null,
+      "args": [],
+      "import_url": null,
+      "runtime": "nodejs10.x",
+      "handler": "index.handler",
+      "environment": {
+        "TABLE_NAME": "",
+        "ACCESS_KEY_ID": "",
+        "SECRET_ACCESS_KEY": "",
+        "REGION": ""
+      },
+      "app_id": null,
+      "version": null
+    },
     {
       "name": "norm_units",
       "description": null,

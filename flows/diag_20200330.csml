@@ -1,41 +1,41 @@
 start:
   say Typing(3000)
-	say Image("https://images.prismic.io/le-groupe-laposte/c4993dd1-d488-475b-abe1-c5ff80193bf6_maladiecoronavirus.jpg?auto=compress,format")
-  say "Bienvenue sur le test **d'autodiagnostic COVID-19**, réalisé en partenariat avec **l'Institut Pasteur** et le **Ministère de la santé**."
+  say "Bienvenue sur le test *d'autodiagnostic COVID-19*, réalisé en partenariat avec *l'Institut Pasteur*, *l'AP-HP* et le *Ministère de la santé*."
   say Typing(2000)
-	say "⚠️ Attention, ce site d’information **n’est pas un dispositif médical**, il ne délivre pas d’avis médical."
+	say "⚠️ Attention, ce site d’information *n’est pas un dispositif médical*, il ne délivre pas d’avis médical."
 	say Typing(3000)
-	say "🚨**Information Importante**🚨 : La prise d'anti-inflammatoires (ibuprofène, cortisone ...) pourrait être un facteur d'aggravation de l’infection."
+	say "*🚨Information Importante 🚨* : la prise d'anti-inflammatoires (ibuprofène, cortisone ...) pourrait être un facteur d'aggravation de l’infection."
 	say "En cas de fièvre 🤒, prenez du paracétamol. Si vous êtes déjà sous anti-inflammatoires ou en cas de doute, demandez conseil à votre médecin 👨‍⚕️👩‍⚕️."
   say Typing(4000)
-	say "**Avant de commencer, veuillez lire le préambule à l'utilisation du service :**"
-	say {
-		"content_type": "link",
-		"url": "https://bit.ly/préambule",
-		"text":"Appelez le 0800 130 000, ou suivez l'actualité sur : ",
-		"title":"Préambule au test d'autodiagnostic"
-	}
-	say Typing (2000)
+	say "*Avant de commencer, veuillez lire le préambule à l'utilisation du service :*"
+	say Url("https://bit.ly/préambule")
+	say Typing(2000)
 	say Question(
-		" ***« Je reconnais avoir lu le préambule et souhaite démarrer le test »*** ",
+		"*« Je reconnais avoir lu le préambule et souhaite démarrer le test »*",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
-			])
+    ]
+  )
 	hold
 	if (event match btnyes) {
 		say "Allons-y."
 		say Typing (2000)
 		goto q1
 	} else {
-		say "C'est noté. Bonne journée ! 🙂"
+		say Question(
+      "C'est noté. Bonne journée ! 🙂",
+      buttons=[Button("Recommencer")]
+    )
+    hold
+    goto start
 	}
 	goto end
 
 
 q1:
 	say Question(
-		"**1/21** : Pensez-vous avoir eu de la fièvre ces derniers jours (frissons, sueurs)  ?",
+		"*1/21* : Pensez-vous avoir eu de la fièvre ces derniers jours (frissons, sueurs) ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno,
@@ -49,14 +49,14 @@ q1:
 		remember hasTemp = 0
 		// Verifier la valeur envoyée à l'api de `temp`
 		remember temp = 0
-		goto q3
+		goto q2
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons."
 		goto q1
 	}
 
 q1bis:
-	say "**1bis/21** : Quelle est votre température corporelle (ex: 38) ?"
+	say "*1bis/21* : Quelle est votre température corporelle (ex: 38) ?"
 	hold
 	do Fn("norm_units", string=event) as parsedTemp
 	if (!parsedTemp) {
@@ -73,7 +73,7 @@ q1bis:
 
 q2:
 	say Question(
-		"**2/21** : Avez-vous **une toux ou une augmentation de votre toux** habituelle ces derniers jours ?",
+		"*2/21* : Avez-vous *une toux ou une augmentation de votre toux* habituelle ces derniers jours ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -92,7 +92,7 @@ q2:
 
 q3:
 	say Question(
-		"**3/21** : Ces derniers jours, avez-vous noté une **forte diminution ou perte de votre goût ou de votre odorat** ?",
+		"*3/21* : Ces derniers jours, avez-vous noté une *forte diminution ou perte de votre goût ou de votre odorat* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -112,17 +112,17 @@ q3:
 
 q4:
 	say Question(
-		"**4/21** : Avez-vous un **mal de gorge** ou des **douleurs musculaires** ou des **courbatures** inhabituelles ces derniers jours ?",
+		"*4/21* : Avez-vous un *mal de gorge* ou des *douleurs musculaires* ou des *courbatures* inhabituelles ces derniers jours ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
 		])
 	hold
 	if (event match btnyes) {
-		remember hasPainfulThroatMuscleMuscle = 1
+		remember hasPainfulThroatMuscle = 1
 		goto q5
 	} else if (event match btnno) {
-		remember hasPainfulThroatMuscleMuscle = 0
+		remember hasPainfulThroatMuscle = 0
 		goto q5
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -131,7 +131,7 @@ q4:
 
 q5:
 	say Question(
-		"**5/21** : Ces dernières 24 heures, avez-vous de la **diarrhée** ? Avec au moins 3 selles molles.",
+		"*5/21* : Ces dernières 24 heures, avez-vous de la *diarrhée* ? Avec au moins 3 selles molles.",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -150,7 +150,7 @@ q5:
 
 q6:
 	say Question(
-		"**6/21** : Ces derniers jours, avez-vous une **fatigue inhabituelle** ?",
+		"*6/21* : Ces derniers jours, avez-vous une *fatigue inhabituelle* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -170,7 +170,7 @@ q6:
 
 q6bis:
 	say Question(
-		"**6bis/21** : Cette fatigue vous oblige-t-elle à vous reposer plus de la moitié de la journée ?",
+		"*6bis/21* : Cette fatigue vous oblige-t-elle à vous reposer plus de la moitié de la journée ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -189,7 +189,7 @@ q6bis:
 
 q7:
 	say Question(
-		"**7/21** : Êtes vous dans l'impossibilité de vous alimenter ou de boire **DEPUIS 24 HEURES OU PLUS** ?",
+		"*7/21* : Êtes vous dans l'impossibilité de vous alimenter ou de boire *DEPUIS 24 HEURES OU PLUS* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -208,7 +208,7 @@ q7:
 
 q8:
 	say Question(
-		"**8/21** : Dans les dernières 24 heures, avez-vous noté un **manque de souffle INHABITUEL** lorsque vous parlez ou faites un petit effort ?",
+		"*8/21* : Dans les dernières 24 heures, avez-vous noté un *manque de souffle INHABITUEL* lorsque vous parlez ou faites un petit effort ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -226,7 +226,7 @@ q8:
 	}
 
 q9:
-	say "**9/21** : Quel est votre âge ? Ceci, afin de calculer un facteur de risque spécifique (ex: 28)."
+	say "*9/21* : Quel est votre âge ? Ceci, afin de calculer un facteur de risque spécifique (ex: 28)."
 	hold
 	do Fn("norm_units", string=event) as parsedAge
 	if (!parsedAge) {
@@ -248,7 +248,7 @@ q9:
 	}
 
 q10:
-	say "**10/21** : Quel est votre **taille** en centimetres (ex: 175) ? Afin de calculer l’indice de masse corporelle qui est un facteur influençant le risque de complications de l’infection."
+	say "*10/21* : Quel est votre *taille* en centimetres (ex: 175) ? Afin de calculer l’indice de masse corporelle qui est un facteur influençant le risque de complications de l’infection."
 	hold
 	do Fn("norm_units", string=event) as parsedSize
 	if (!parsedSize) {
@@ -266,7 +266,7 @@ q10:
 	}
 
 q11:
-	say "**11/21** : Quel est votre **poids** en kilogrammes (ex: 84) ? Afin de calculer l’indice de masse corporelle qui est un facteur influençant le risque de complications de l’infection. "
+	say "*11/21* : Quel est votre *poids* en kilogrammes (ex: 84) ? Afin de calculer l’indice de masse corporelle qui est un facteur influençant le risque de complications de l’infection. "
 	hold
 	do Fn("norm_units", string=event) as parsedWeight
 	if (!parsedWeight) {
@@ -283,7 +283,7 @@ q11:
 
 q12:
 	say Question(
-		"**12/21** : Avez-vous de **l’hypertension artérielle** mal équilibrée ? Ou avez-vous une **maladie cardiaque ou vasculaire** ? Ou prenez-vous un **traitement à visée cardiologique** ?",
+		"*12/21* : Avez-vous de *l’hypertension artérielle* mal équilibrée ? Ou avez-vous une *maladie cardiaque ou vasculaire* ? Ou prenez-vous un *traitement à visée cardiologique* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno,
@@ -306,7 +306,7 @@ q12:
 
 q13:
 	say Question(
-		"**13/21** : Êtes-vous diabétique ?",
+		"*13/21* : Êtes-vous diabétique ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -325,7 +325,7 @@ q13:
 
 q14:
 	say Question(
-		"**14/21** : Avez-vous ou avez-vous eu un **cancer** dans les 3 dernières années ?",
+		"*14/21* : Avez-vous ou avez-vous eu un *cancer* dans les 3 dernières années ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -344,7 +344,7 @@ q14:
 
 q15:
 	say Question(
-		"**15/21** : Avez-vous une **maladie respiratoire** ? Ou êtes-vous **suivi par un pneumologue** ?",
+		"*15/21* : Avez-vous une *maladie respiratoire* ? Ou êtes-vous *suivi par un pneumologue* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -363,7 +363,7 @@ q15:
 
 q16:
 	say Question(
-		"**16/21** : Avez-vous une **insuffisance rénale chronique dialysée** ?",
+		"*16/21* : Avez-vous une *insuffisance rénale chronique dialysée* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -382,7 +382,7 @@ q16:
 
 q17:
 	say Question(
-		"**17/21** : Avez-vous une **maladie chronique du foie** ?",
+		"*17/21* : Avez-vous une *maladie chronique du foie* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno
@@ -401,7 +401,7 @@ q17:
 
 q18:
 	say Question(
-		"**18/21** : Êtes-vous **enceinte** ?",
+		"*18/21* : Êtes-vous *enceinte* ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno,
@@ -424,7 +424,7 @@ q18:
 
 q19:
 	say Question(
-		"**19/21** : Avez-vous une maladie connue pour diminuer vos défenses immunitaires ?",
+		"*19/21* : Avez-vous une maladie connue pour diminuer vos défenses immunitaires ?",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno,
@@ -447,7 +447,7 @@ q19:
 
 q20:
 	say Question(
-		"**20/21** : Prenez-vous un **traitement immunosuppresseur** ? C’est un traitement qui diminue vos défenses contre les infections. Voici quelques exemples : corticoïdes, méthotrexate, ciclosporine, tacrolimus, azathioprine, cyclophosphamide (liste non exhaustive).",
+		"*20/21* : Prenez-vous un *traitement immunosuppresseur* ? C’est un traitement qui diminue vos défenses contre les infections. Voici quelques exemples : corticoïdes, méthotrexate, ciclosporine, tacrolimus, azathioprine, cyclophosphamide (liste non exhaustive).",
 		buttons=[
 			Button("Oui", accepts=["oui", "yes", "Yes", "Ouais", "ouais"]) as btnyes,
 			Button("Non", accepts=["non", "no", "Nope", "nope", "No", "Pas du tout"]) as btnno,
@@ -470,7 +470,7 @@ q20:
 
 q21:
 	say Question(
-		"**21/21** : Quel est votre code postal ?",
+		"*21/21* : Quel est votre code postal ?",
 		buttons = [
 			Button("Je ne suis pas en France",
 				accepts=[
@@ -495,4 +495,4 @@ bufferStep:
 		goto end
 	}
 	remember done = 1
-	goto flow diag_20200323_algo
+	goto flow diag_20200330_algo
