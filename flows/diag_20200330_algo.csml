@@ -96,7 +96,6 @@ start:
 			say "Un avis médical est recommandé."
 			say Typing(2000)
 			say "Au moindre doute, appelez le 15. Nous vous conseillons de rester à votre domicile."
- 
 			goto final
 		} else {
 			say "Votre situation peut relever d’un COVID 19 qu’il faut surveiller."
@@ -156,23 +155,26 @@ start:
 				// Si moins de 50 ans
 				if (age < 50) {
 					say "*Votre situation peut relever d’un COVID 19 qu’il faut surveiller.*"
-          say Typing(2000)
+          			say Typing(2000)
 					say "Si de nouveaux symptômes apparaissent, *refaites le test ou consultez votre médecin*. Nous vous conseillons de rester à votre domicile."
+					goto final
 				} else {
 					say "⚠️ *Votre situation peut relever d’un COVID 19.*"
 					say Typing(2000)
-          say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
+          			say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
 					say Typing(2000)
-          say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+          			say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+					goto final
 				}
 			}
 			// Sinon (1 ou plusieurs facteurs de gravité mineurs)
 			else if (fgmineurs >= 1) {
 					say "⚠️ *Votre situation peut relever d’un COVID 19.*"
 					say Typing(2000)
-          say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
+          			say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
 					say Typing(2000)
-          say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+			        say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+					goto final
 				}
 		}
 		// Tout patient avec un facteur pronostique ou plus
