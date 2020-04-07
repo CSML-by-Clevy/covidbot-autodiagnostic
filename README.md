@@ -16,7 +16,7 @@ Ce bot a été réalisé à partir de l'algorithme élaboré en lien avec l’In
 
 L'algorithme d'orientation est mis à jour sur les recommandations en vigueur au 20/03/2020. Le Chatbot diagnostic n’est pas un dispositif médical, il ne délivre pas d’avis médical. Projet solidaire d'urgence, financé par l’Alliance Digitale contre le COVID-19 : @maladiecovid19 et par Clevy.
 
-La version officielle de l'algorithme est diponible ici : https://esante.gouv.fr/sites/default/files/media_entity/documents/200320_Algorithme_Orientation.pdf
+La version officielle et à jour de l'algorithme est diponible ici : https://esante.gouv.fr/algorithme-orientation
 
 Il a été développé par les équipes de [Clevy](https://www.clevy.io), leader français des chatbots d'entreprise. Son code est rendu accessible à tous dans sa totalité. Vous pouvez télécharger et modifier ce code selon vos souhaits.
 
