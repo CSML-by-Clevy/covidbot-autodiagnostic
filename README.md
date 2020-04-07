@@ -14,7 +14,7 @@ Visitez https://covidbot.clevy.io pour l'essayer !
 
 Ce bot a été réalisé à partir de l'algorithme élaboré en lien avec l’Institut Pasteur et l’Assistance publique des Hôpitaux de Paris. Son contenu a été validé par le Ministère des Solidarités et de la Santé.
 
-L'algorithme d'orientation est mis à jour sur les recommandations en vigueur au 20/03/2020. Le Chatbot diagnostic n’est pas un dispositif médical, il ne délivre pas d’avis médical. Projet solidaire d'urgence, financé par l’Alliance Digitale contre le COVID-19 : @maladiecovid19 et par Clevy.
+L'algorithme d'orientation est mis à jour sur les recommandations en vigueur au 30/03/2020. Le Chatbot diagnostic n’est pas un dispositif médical, il ne délivre pas d’avis médical. Projet solidaire d'urgence, financé par l’Alliance Digitale contre le COVID-19 : @maladiecovid19 et par Clevy.
 
 La version officielle et à jour de l'algorithme est diponible ici : https://esante.gouv.fr/algorithme-orientation
 
