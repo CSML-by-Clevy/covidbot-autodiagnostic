@@ -1,0 +1,56 @@
+// FIN1
+remember orientation_moins_de_15_ans = [
+    "Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, *appelez le 15* 📞."
+]
+// FIN2
+remember orientation_domicile_surveillance_1 = [
+  "*Votre situation peut relever d’un COVID 19 qu’il faut surveiller.*",
+  Typing(2000),
+  "Si de nouveaux symptômes apparaissent, *refaites le test ou consultez votre médecin*. Nous vous conseillons de rester à votre domicile."
+]
+// FIN3
+remember orientation_consultation_surveillance_1 = [
+  "⚠️ *Votre situation peut relever d’un COVID 19.*",
+  Typing(2000),
+  "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*",
+  Typing(2000),
+  "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+]
+// FIN4
+remember orientation_consultation_surveillance_2 = [
+  "*⚠️Votre situation peut relever d’un COVID 19 et nécessite un avis médical*",
+  Typing(2000),
+  "*Ne vous déplacez pas au cabinet*, appelez pour demander conseil avant votre venue.",
+  Typing(2000),
+  "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un *service de téléconsultation*. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région.",
+  Url("https://maladiecoronavirus.fr/teleconsultation", text="Services de Téléconsultation"),
+  Url("https://maladiecoronavirus.fr/permanences", text="Permanences de soins ambulatoires par région (PDSA)"),
+  Typing(2000),
+  "📞 Appelez le *15* si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+]
+// FIN5
+remember orientation_SAMU = [
+  "🚨 *Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide*.",
+  Typing(2000),
+  "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique.",
+  Typing(2000),
+  " *Composez le 15*. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+]
+// FIN6
+remember orientation_consultation_surveillance_3 = [
+  "⚠️ *Votre situation peut relever d’un COVID 19.*",
+	Typing(2000),
+  "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.).",
+  Url("https://maladiecoronavirus.fr/teleconsultation", text="Services de Téléconsultation"),
+  Url("https://maladiecoronavirus.fr/permanences", text="Permanences de soins ambulatoires par région (PDSA)")
+]
+// FIN7
+remember orientation_consultation_surveillance_4 = [
+  "Votre situation peut relever d’un COVID 19 qu’il faut surveiller.",
+	Typing(2000),
+	"Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile."
+]
+// FIN8
+remember orientation_surveillance = [
+  "*Votre situation ne relève probablement pas du Covid-19* ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. "
+]
