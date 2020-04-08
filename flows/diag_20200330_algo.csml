@@ -1,5 +1,24 @@
 start:
-	// CALCUL IMC
+	// Initialisation des variables contextuelles
+	remember algo_version = "2020-03-30"
+	remember form_version = "2020-04-08"
+	// TODO remember date = "date ISO 8601	Ex. 2020-04-02T05:24:57.711-00:00"
+	// TODO remember duration = end - start (int)
+
+	// Calcul des variables de l'algo
+	// -- age range
+	if (age < 15) remember age_range = "inf_15"
+	else if (age >= 15 && age <= 49) remember age_range = "from_15_to_49"
+	else if (age >= 50 && age <= 69) remember age_range = "from_50_to_69"
+	else if (age >= 70) remember age_range = "sup_70"
+	else age_range = "N/A"
+	// -- température
+	if (temp < 35.5) remember temperature_cat = "inf_35.5"
+	else if (temp >= 35.5 && temp <= 37.7) remember temperature_cat = "35.5-37.7"
+	else if (temp >= 37.8 && temp <= 38.9) remember temperature_cat = "37.8-38.9"
+	else if (temp >= 39) remember temperature_cat = "sup_39"
+	else temperature_cat = "NSP"
+	// -- IMC
 	do sizem = size.to_float() / 100
 	do sizem2 = sizem.pow(2)
 	remember imc = weight.to_float() / sizem2
@@ -8,40 +27,40 @@ start:
 	do fgmineurs = 0
 	if (temp >= 39) do fgmineurs = fgmineurs + 1
 	if (temp <= 35.4 && temp > 0) do fgmineurs = fgmineurs + 1
-	if (hasDailyNap == 1) do fgmineurs = fgmineurs + 1
+	if (tiredness_details == 1) do fgmineurs = fgmineurs + 1
 
 	// Facteurs de gravité majeurs
 	do fgmajeurs = 0
-	if (hasSOB == 1) do fgmajeurs = fgmajeurs + 1
-	if (hasFeedStruggle == 1) do fgmajeurs = fgmajeurs + 1
+	if (breathlessness == 1) do fgmajeurs = fgmajeurs + 1
+	if (feeding_day == 1) do fgmajeurs = fgmajeurs + 1
 
 	do hasNoPronosticFactors = (imc <= 30 &&
-		hasCARDISSUE == 0 &&
-		hasDiabetes == 0 &&
-		hasCancer == 0 &&
-		hasBreathingIllness == 0 &&
-		hasKidneyFailure == 0 &&
-		hasLiverIllness == 0 &&
-		isPregnant != 1 &&
-		hasImuneSystemFailure != 1 &&
-		hasImmunosuppresseur != 1)
+		heart_disease == 0 &&
+		diabetes == 0 &&
+		cancer == 0 &&
+		breathing_disease == 0 &&
+		kidney_disease == 0 &&
+		liver_disease == 0 &&
+		pregnant != 1 &&
+		immunosuppressant_disease != 1 &&
+		immunosuppressant_drug != 1)
 
 //////////////////////////////////////////////////////////////
 // CALCULS DES NIVEAUX DE SYMPTOMES //////////////////////////
 //////////////////////////////////////////////////////////////
 
 	// Patients avec aucun symptome
-	if ((hasTemp == 0 || temp == 0 || (temp >= 35.5 && temp <= 37.7)) &&
-		hasCaugh == 0 &&
-		hasPainfulThroatMuscle == 0 &&
-		hasDiarrhea == 0 &&
-		hasFatigue == 0 &&
-		hasFeedStruggle == 0 &&
-		hasSOB == 0
+	if ((fever == 0 || temp == 0 || (temp >= 35.5 && temp <= 37.7)) &&
+		cough == 0 &&
+		sore_throat_aches == 0 &&
+		diarrhea == 0 &&
+		tiredness == 0 &&
+		feeding_day == 0 &&
+		breathlessness == 0
 	) do symptomsLevel = 0
 
 	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
-	if (hasCaugh + hasPainfulThroatMuscle + hasNoTaste == 1 && temp >= 35.5 && temp <= 37.7) {
+	if (cough + sore_throat_aches + agueusia_anosmia == 1 && temp >= 35.5 && temp <= 37.7) {
 		do symptomsLevel = 1
 	}
 
@@ -52,13 +71,13 @@ start:
 	// ---- ou toux et douleurs
 	// ---- ou toux et anosmie
 	if (temp > 37.7 ||
-		(hasCaugh == 1 && hasPainfulThroatMuscle == 1) ||
-		(hasCaugh == 1 && hasNoTaste == 1) ||
-		(hasDiarrhea == 1)
+		(cough == 1 && sore_throat_aches == 1) ||
+		(cough == 1 && agueusia_anosmia == 1) ||
+		(diarrhea == 1)
 	) do symptomsLevel = 2
 
 	// Tout patient avec fièvre et toux :
-	if (temp > 37.7 && hasCaugh == 1) do symptomsLevel = 3
+	if (temp > 37.7 && cough == 1) do symptomsLevel = 3
 
 
 
@@ -180,7 +199,7 @@ start:
 		// Tout patient avec un facteur pronostique ou plus
 		if (hasNoPronosticFactors == false) {
 			// Si zéro ou un facteur de gravité mineur
-			if (fgmineurs == 0) {
+			if (fgmineurs <= 1) {
 				say "⚠️ *Votre situation peut relever d’un COVID 19.*"
 				say Typing(2000)
 				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile."

@@ -10,27 +10,27 @@ start:
 // Reponse :   Votre situation peut relever d’un COVID 19.
 // Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile. Si vous n'arrivez pas à obtenir de consultation, appelez le 15..
 
-	remember hasTemp = 0
+	remember fever = 0
 	remember temp = 35
-	remember hasCaugh = 1
-	remember hasNoTaste = 1
-	remember hasPainfulThroatMuscle = 0
-	remember hasDiarrhea = 0
-	remember hasFatigue = 0
-	remember hasDailyNap = 1
-	remember hasFeedStruggle = 0
-	remember hasSOB = 0
+	remember cough = 1
+	remember agueusia_anosmia = 1
+	remember sore_throat_aches = 0
+	remember diarrhea = 0
+	remember tiredness = 0
+	remember tiredness_details = 1
+	remember feeding_day = 0
+	remember breathlessness = 0
 	remember age = 45
 	remember size = 183
 	remember weight = 83
-	remember hasCARDISSUE = 0
-	remember hasDiabetes = 0
-	remember hasCancer = 1
-	remember hasBreathingIllness = 0
-	remember hasKidneyFailure = 0
-	remember hasLiverIllness = 0
-	remember isPregnant = 0
-	remember hasImuneSystemFailure = 0
-	remember hasImmunosuppresseur = 0
-	remember location = "92400"
+	remember heart_disease = 0
+	remember diabetes = 0
+	remember cancer = 1
+	remember breathing_disease = 0
+	remember kidney_disease = 0
+	remember liver_disease = 0
+	remember pregnant = 0
+	remember immunosuppressant_disease = 0
+	remember immunosuppressant_drug = 0
+	remember postal_code = "92400"
 	goto flow diag_20200330_algo

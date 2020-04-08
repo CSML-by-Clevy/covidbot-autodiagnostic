@@ -1,12 +1,11 @@
 start:
-  say Typing(3000)
   say "Bienvenue sur le test *d'autodiagnostic COVID-19*, réalisé en partenariat avec *l'Institut Pasteur*, *l'AP-HP* et le *Ministère de la santé*."
   say Typing(2000)
 	say "⚠️ Attention, ce site d’information *n’est pas un dispositif médical*, il ne délivre pas d’avis médical."
-	say Typing(3000)
+	say Typing(2000)
 	say "*🚨Information Importante 🚨* : la prise d'anti-inflammatoires (ibuprofène, cortisone ...) pourrait être un facteur d'aggravation de l’infection."
 	say "En cas de fièvre 🤒, prenez du paracétamol. Si vous êtes déjà sous anti-inflammatoires ou en cas de doute, demandez conseil à votre médecin 👨‍⚕️👩‍⚕️."
-  say Typing(4000)
+  say Typing(3000)
 	say "*Avant de commencer, veuillez lire le préambule à l'utilisation du service :*"
 	say Url("https://bit.ly/préambule")
 	say Typing(2000)
@@ -21,6 +20,8 @@ start:
 	if (event match btnyes) {
 		say "Allons-y."
 		say Typing (2000)
+    // TODO
+    // Mettre le timestamp de debut ici
 		goto q1
 	} else {
 		say Question(
@@ -42,12 +43,14 @@ q1:
 			Button("Ne sait pas", accepts=["ne sait pas", "ne sais pas", "Ne sais pas", "Je ne sais pas", "je ne sais pas", "ne sais pas"]) as btnnsp
 		])
 	hold
-	if (event match btnyes || event match btnnsp) {
-		remember hasTemp = 1
+	if (event match btnyes) {
+		remember fever = 1
 		goto q1bis
+  } else if (event match btnnsp) {
+    remember fever = 999
+    goto q2
 	} else if (event match btnno) {
-		remember hasTemp = 0
-		// Verifier la valeur envoyée à l'api de `temp`
+		remember fever = 0
 		remember temp = 0
 		goto q2
 	} else {
@@ -80,10 +83,10 @@ q2:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasCaugh = 1
+		remember cough = 1
 		goto q3
 	} else if (event match btnno) {
-		remember hasCaugh = 0
+		remember cough = 0
 		goto q3
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons."
@@ -99,10 +102,10 @@ q3:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasNoTaste = 1
+		remember agueusia_anosmia = true
 		goto q4
 	} else if (event match btnno) {
-		remember hasNoTaste = 0
+		remember agueusia_anosmia = false
 		goto q4
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -119,10 +122,10 @@ q4:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasPainfulThroatMuscle = 1
+		remember sore_throat_aches = true
 		goto q5
 	} else if (event match btnno) {
-		remember hasPainfulThroatMuscle = 0
+		remember sore_throat_aches = false
 		goto q5
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -138,10 +141,10 @@ q5:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasDiarrhea = 1
+		remember diarrhea = true
 		goto q6
 	} else if (event match btnno) {
-		remember hasDiarrhea = 0
+		remember diarrhea = false
 		goto q6
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -157,11 +160,11 @@ q6:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasFatigue = 1
+		remember tiredness = true
 		goto q6bis
 	} else if (event match btnno) {
-		remember hasFatigue = 0
-		remember hasDailyNap = 0
+		remember tiredness = false
+		remember tiredness_details = false
 		goto q7
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -177,10 +180,10 @@ q6bis:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasDailyNap = 1
+		remember tiredness_details = true
 		goto q7
 	} else if (event match btnno) {
-		remember hasDailyNap = 0
+		remember tiredness_details = false
 		goto q7
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -196,10 +199,10 @@ q7:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasFeedStruggle = 1
+		remember feeding_day = true
 		goto q8
 	} else if (event match btnno) {
-		remember hasFeedStruggle = 0
+		remember feeding_day = false
 		goto q8
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -215,10 +218,10 @@ q8:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasSOB = 1
+		remember breathlessness = true
 		goto q9
 	} else if (event match btnno) {
-		remember hasSOB = 0
+		remember breathlessness = false
 		goto q9
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -291,13 +294,13 @@ q12:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasCARDISSUE = 1
+		remember heart_disease = 1
 		goto q13
 	} else if (event match btnno) {
-		remember hasCARDISSUE = 0
+		remember heart_disease = 0
 		goto q13
 	} else if (event match btnnsp) {
-		remember hasCARDISSUE = 2
+		remember heart_disease = 999
 		goto q13
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -313,10 +316,10 @@ q13:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasDiabetes = 1
+		remember diabetes = true
 		goto q14
 	} else if (event match btnno) {
-		remember hasDiabetes = 0
+		remember diabetes = false
 		goto q14
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -332,10 +335,10 @@ q14:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasCancer = 1
+		remember cancer = true
 		goto q15
 	} else if (event match btnno) {
-		remember hasCancer = 0
+		remember cancer = false
 		goto q15
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -351,10 +354,10 @@ q15:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasBreathingIllness = 1
+		remember breathing_disease = true
 		goto q16
 	} else if (event match btnno) {
-		remember hasBreathingIllness = 0
+		remember breathing_disease = false
 		goto q16
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -370,10 +373,10 @@ q16:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasKidneyFailure = 1
+		remember kidney_disease = true
 		goto q17
 	} else if (event match btnno) {
-		remember hasKidneyFailure = 0
+		remember kidney_disease = false
 		goto q17
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -389,10 +392,10 @@ q17:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasLiverIllness = 1
+		remember liver_disease = true
 		goto q18
 	} else if (event match btnno) {
-		remember hasLiverIllness = 0
+		remember liver_disease = false
 		goto q18
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -409,13 +412,13 @@ q18:
 		])
 	hold
 	if (event match btnyes) {
-		remember isPregnant = 1
+		remember pregnant = 1
 		goto q19
 	} else if (event match btnno) {
-		remember isPregnant = 0
+		remember pregnant = 0
 		goto q19
 	} else if (event match btnna) {
-		remember isPregnant = 2
+		remember pregnant = 888
 		goto q19
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -432,13 +435,13 @@ q19:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasImuneSystemFailure = 1
+		remember immunosuppressant_disease = 1
 		goto q20
 	} else if (event match btnno) {
-		remember hasImuneSystemFailure = 0
+		remember immunosuppressant_disease = 0
 		goto q20
 	} else if (event match btnnsp) {
-		remember hasImuneSystemFailure = 2
+		remember immunosuppressant_disease = 999
 		goto q20
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -455,13 +458,13 @@ q20:
 		])
 	hold
 	if (event match btnyes) {
-		remember hasImmunosuppresseur = 1
+		remember immunosuppressant_drug = 1
 		goto q21
 	} else if (event match btnno) {
-		remember hasImmunosuppresseur = 0
+		remember immunosuppressant_drug = 0
 		goto q21
 	} else if (event match btnnsp) {
-		remember hasImmunosuppresseur = 2
+		remember immunosuppressant_drug = 999
 		goto q21
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons"
@@ -483,10 +486,12 @@ q21:
 		])
 	hold
 	if (event match btnhorsfr) {
-		remember location = "horsFR"
+		remember postal_code = "horsFR"
 	} else {
-		remember location = event
+		remember postal_code = event
 	}
+  // TODO
+  // Mettre le timestamp de fin ici
 	goto bufferStep
 
 bufferStep:
