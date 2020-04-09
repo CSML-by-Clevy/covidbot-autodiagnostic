@@ -4,8 +4,8 @@ start:
 	//////////////////////////////////////////////////////////////
 	remember algo_version = "2020-03-30"
 	remember form_version = "2020-04-08"
-	// TODO remember date = "date ISO 8601	Ex. 2020-04-02T05:24:57.711-00:00"
-	// TODO remember duration = end - start (int)
+	remember date = starting_ts.iso
+	remember duration = ending_ts.now - starting_ts.now
 
 	// Calcul des variables de l'algo
 	// -- age range
@@ -236,18 +236,15 @@ start:
 			}
 		}
 	}
-	//Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
-	say "Malheureusement, *nous n'avons pas assez de donnée pour vous réaliser un autodiagnostic*. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+	// Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
+	foreach (message) in responses.ERR.content {
+		say message
+	}
 	goto final
 
 final:
 	//say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
-  say Typing(2000)
-  say "Pour vous protéger et protéger les autres, dans la mesure du possible, *restez chez vous* et *limitez les contacts avec d'autres personnes.*"
-  say Typing(2000)
-  say Url("https://covid19-medicaments.com",
-    text="Pour vérifier si un médicament pourrait présenter un risque potentiel d'aggraver vos symptômes")
-  say Url("https://www.gouvernement.fr/info-coronavirus",
-    text="Vous avez des questions additionnelles, appelez le 0800 130 000, ou suivez l'actualité sur : ")
-
+  foreach (message) in responses.FINAL.content {
+		say message
+	}
 	goto end

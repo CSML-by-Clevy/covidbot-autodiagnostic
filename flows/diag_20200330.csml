@@ -20,8 +20,7 @@ start:
 	if (event match btnyes) {
 		say "Allons-y."
 		say Typing (2000)
-    // TODO
-    // Mettre le timestamp de debut ici
+    remember starting_ts = Fn("datetime", method="now")
 		goto q1
 	} else {
 		say Question(
@@ -490,8 +489,7 @@ q21:
 	} else {
 		remember postal_code = event
 	}
-  // TODO
-  // Mettre le timestamp de fin ici
+  remember ending_ts = Fn("datetime", method="now")
 	goto bufferStep
 
 bufferStep:

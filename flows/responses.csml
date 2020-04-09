@@ -71,4 +71,19 @@ remember responses = {
       "*Votre situation ne relève probablement pas du Covid-19* ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. "
     ]
   },
-},
+  "ERR": {
+    "name": "N/A",
+    "content": [
+      "Malheureusement, *nous n'avons pas assez de donnée pour vous réaliser un autodiagnostic*. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+    ]
+  },
+  "FINAL": {
+    "name": "FINAL",
+    "content": [
+      "Pour vous protéger et protéger les autres, dans la mesure du possible, *restez chez vous* et *limitez les contacts avec d'autres personnes.*",
+      Typing(2000),
+      Url("https://covid19-medicaments.com", text="Pour vérifier si un médicament pourrait présenter un risque potentiel d'aggraver vos symptômes"),
+      Url("https://www.gouvernement.fr/info-coronavirus", text="Vous avez des questions additionnelles, appelez le 0800 130 000, ou suivez l'actualité sur : ")
+    ]
+  }
+}
