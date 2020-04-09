@@ -103,29 +103,49 @@ start:
 //////////////////////////////////////////////////////////////
 
 	if (age < 15) {
-		// FIN 1
+		remember orientation = responses.FIN1.name
+		say "orientation: {{orientation}}"
+		foreach (message) in responses.FIN1.content {
+			say message
+		}
 		goto end
 	}
 
 	// Tout patient avec au moins un facteur de gravité majeur
 	if (fgmajeurs > 0) {
-		// FIN 5
+		remember orientation = responses.FIN5.name
+		say "orientation: {{orientation}}"
+		foreach (message) in responses.FIN5.content {
+			say message
+		}
 		goto final
 
 	}
 
 	if (symptomsLevel == 0) {
-		// FIN 8
+		remember orientation = responses.FIN8.name
+		say "orientation: {{orientation}}"
+		foreach (message) in responses.FIN8.content {
+			say message
+		}
 		goto final
 	}
 
 	if (symptomsLevel == 1) {
 		// Au moins un facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			// FIN 2
+			remember orientation = responses.FIN2.name
+			say "orientation: {{orientation}}"
+			foreach (message) in responses.FIN2.content {
+				say message
+			}
 			goto final
 		} else {
-			// FIN 7
+			remember orientation = responses.FIN7.name
+			say "orientation: {{orientation}}"
+			foreach (message) in responses.FIN7.content {
+				say message
+			}
 			goto final
 		}
 	}
@@ -133,19 +153,31 @@ start:
 	if (symptomsLevel == 3) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			// FIN 6
+			remember orientation = responses.FIN6.name
+			say "orientation: {{orientation}}"
+			foreach (message) in responses.FIN6.content {
+				say message
+			}
 			goto final
 		}
 		// Tout patient avec un facteur pronostique ou plus
 		if (hasNoPronosticFactors == false) {
 			// Si un ou deux facteurs de gravité mineurs
 			if (fgmineurs <= 1) {
-				// FIN 6
+				remember orientation = responses.FIN6.name
+				say "orientation: {{orientation}}"
+				foreach (message) in responses.FIN6.content {
+					say message
+				}
 				goto final
 			}
 			// Avec au moins deux facteurs de gravité mineurs
 			if (fgmineurs > 1) {
-				// FIN 4
+				remember orientation = responses.FIN4.name
+				say "orientation: {{orientation}}"
+				foreach (message) in responses.FIN4.content {
+					say message
+				}
 				goto final
 			}
 		}
@@ -157,16 +189,28 @@ start:
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
-					// FIN 2
+					remember orientation = responses.FIN2.name
+					say "orientation: {{orientation}}"
+					foreach (message) in responses.FIN2.content {
+						say message
+					}
 					goto final
 				} else {
-					// FIN 3
+					remember orientation = responses.FIN3.name
+					say "orientation: {{orientation}}"
+					foreach (message) in responses.FIN3.content {
+						say message
+					}
 					goto final
 				}
 			}
 			// Sinon (1 ou plusieurs facteurs de gravité mineurs)
 			else if (fgmineurs >= 1) {
-				// FIN 3
+				remember orientation = responses.FIN3.name
+				say "orientation: {{orientation}}"
+				foreach (message) in responses.FIN3.content {
+					say message
+				}
 				goto final
 			}
 		}
@@ -174,12 +218,20 @@ start:
 		if (hasNoPronosticFactors == false) {
 			// Si zéro ou un facteur de gravité mineur
 			if (fgmineurs < 2) {
-				// FIN 3
+				remember orientation = responses.FIN3.name
+				say "orientation: {{orientation}}"
+				foreach (message) in responses.FIN3.content {
+					say message
+				}
 				goto final
 			}
 			// Au moins deux facteurs de gravité mineurs
 			if (fgmineurs >= 2) {
-				// FIN 4
+				remember orientation = responses.FIN4.name
+				say "orientation: {{orientation}}"
+				foreach (message) in responses.FIN4.content {
+					say message
+				}
 				goto final
 			}
 		}
