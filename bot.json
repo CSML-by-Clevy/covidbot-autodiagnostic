@@ -22,6 +22,11 @@
       "tags": []
     },
     {
+      "name": "responses",
+      "commands": [],
+      "tags": []
+    },
+    {
       "name": "test_000",
       "commands": [],
       "tags": []

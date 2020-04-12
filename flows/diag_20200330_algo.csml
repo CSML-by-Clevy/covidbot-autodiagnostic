@@ -13,14 +13,14 @@ start:
 	else if (age >= 15 && age <= 49) remember age_range = "from_15_to_49"
 	else if (age >= 50 && age <= 69) remember age_range = "from_50_to_69"
 	else if (age >= 70) remember age_range = "sup_70"
-	else age_range = "N/A"
+	else remember age_range = "N/A"
 	// -- température
 	// -- -- calcul de la categorie
 	if (temp < 35.5) remember temperature_cat = "inf_35.5"
 	else if (temp >= 35.5 && temp <= 37.7) remember temperature_cat = "35.5-37.7"
 	else if (temp > 37.7 && temp < 39) remember temperature_cat = "37.8-38.9"
 	else if (temp >= 39) remember temperature_cat = "sup_39"
-	else temperature_cat = "NSP"
+	else remember temperature_cat = "NSP"
 	// -- -- calcul fievre
 	if (fever == 999 || (fever == 1 && (temperature_cat == "inf_35.5" || temperature_cat == "sup_39" || temperature_cat == "NSP"))) {
 		remember fever_algo = true
@@ -43,40 +43,43 @@ start:
 	do fgmineurs = 0
 	if (temp >= 39) do fgmineurs = fgmineurs + 1
 	if (temp <= 35.4 && temp > 0) do fgmineurs = fgmineurs + 1
-	if (tiredness_details == 1) do fgmineurs = fgmineurs + 1
+	if (tiredness_details == true) do fgmineurs = fgmineurs + 1
 
 	// Facteurs de gravité majeurs
 	do fgmajeurs = 0
-	if (breathlessness == 1) do fgmajeurs = fgmajeurs + 1
-	if (feeding_day == 1) do fgmajeurs = fgmajeurs + 1
+	if (breathlessness == true) do fgmajeurs = fgmajeurs + 1
+	if (feeding_day == true) do fgmajeurs = fgmajeurs + 1
 
 	do hasNoPronosticFactors = (imc <= 30 &&
-		heart_disease == 0 &&
-		diabetes == 0 &&
-		cancer == 0 &&
-		breathing_disease == 0 &&
-		kidney_disease == 0 &&
-		liver_disease == 0 &&
+		heart_disease == false &&
+		diabetes == false &&
+		cancer == false &&
+		breathing_disease == false &&
+		kidney_disease == false &&
+		liver_disease == false &&
 		pregnant != 1 &&
-		immunosuppressant_disease != 1 &&
-		immunosuppressant_drug != 1)
+		immunosuppressant_disease != true &&
+		immunosuppressant_drug != true)
 
 //////////////////////////////////////////////////////////////
 // CALCULS DES NIVEAUX DE SYMPTOMES //////////////////////////
 //////////////////////////////////////////////////////////////
 
 	// Patients avec aucun symptome
-	if ((fever == 0 || temp == 0 || (temp >= 35.5 && temp <= 37.7)) &&
-		cough == 0 &&
-		sore_throat_aches == 0 &&
-		diarrhea == 0 &&
-		tiredness == 0 &&
-		feeding_day == 0 &&
-		breathlessness == 0
+	if (fever_algo == false &&
+		cough == false &&
+		sore_throat_aches == false &&
+		diarrhea == false &&
+		tiredness == false &&
+		feeding_day == false &&
+		breathlessness == false
 	) do symptomsLevel = 0
 
 	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
-	if (cough + sore_throat_aches + agueusia_anosmia == 1 && temp >= 35.5 && temp <= 37.7) {
+	if (fever_algo == false &&
+		(cough == true && sore_throat_aches == false && agueusia_anosmia == false) ||
+		(cough == false && sore_throat_aches == true && agueusia_anosmia == false) ||
+		(cough == false && sore_throat_aches == false && agueusia_anosmia == true)) {
 		do symptomsLevel = 1
 	}
 
@@ -86,14 +89,14 @@ start:
 	// ---- diarrhée
 	// ---- ou toux et douleurs
 	// ---- ou toux et anosmie
-	if (temp > 37.7 ||
-		(cough == 1 && sore_throat_aches == 1) ||
-		(cough == 1 && agueusia_anosmia == 1) ||
-		(diarrhea == 1)
+	if (fever_algo == true ||
+		(cough == true && sore_throat_aches == false) ||
+		(cough == true && agueusia_anosmia == true) ||
+		(diarrhea == true)
 	) do symptomsLevel = 2
 
 	// Tout patient avec fièvre et toux :
-	if (temp > 37.7 && cough == 1) do symptomsLevel = 3
+	if (temp > 37.7 && cough == true) do symptomsLevel = 3
 
 
 
@@ -122,34 +125,7 @@ start:
 
 	}
 
-	if (symptomsLevel == 0) {
-		remember orientation = responses.FIN8.name
-		say "orientation: {{orientation}}"
-		foreach (message) in responses.FIN8.content {
-			say message
-		}
-		goto final
-	}
-
-	if (symptomsLevel == 1) {
-		// Au moins un facteur pronostique
-		if (hasNoPronosticFactors == true) {
-			remember orientation = responses.FIN2.name
-			say "orientation: {{orientation}}"
-			foreach (message) in responses.FIN2.content {
-				say message
-			}
-			goto final
-		} else {
-			remember orientation = responses.FIN7.name
-			say "orientation: {{orientation}}"
-			foreach (message) in responses.FIN7.content {
-				say message
-			}
-			goto final
-		}
-	}
-
+	// Tout patient avec fièvre et toux :
 	if (symptomsLevel == 3) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
@@ -182,6 +158,8 @@ start:
 			}
 		}
 	}
+
+	// SI fièvre OU (pas de fièvre et (diarrhée OU (toux ET douleurs) OU (toux ET anosmie))
 	if (symptomsLevel == 2) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
@@ -236,6 +214,37 @@ start:
 			}
 		}
 	}
+
+	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
+	if (symptomsLevel == 1) {
+		// Au moins un facteur pronostique
+		if (hasNoPronosticFactors == true) {
+			remember orientation = responses.FIN2.name
+			say "orientation: {{orientation}}"
+			foreach (message) in responses.FIN2.content {
+				say message
+			}
+			goto final
+		} else {
+			remember orientation = responses.FIN7.name
+			say "orientation: {{orientation}}"
+			foreach (message) in responses.FIN7.content {
+				say message
+			}
+			goto final
+		}
+	}
+
+	// Patients avec aucun symptome
+	if (symptomsLevel == 0) {
+		remember orientation = responses.FIN8.name
+		say "orientation: {{orientation}}"
+		foreach (message) in responses.FIN8.content {
+			say message
+		}
+		goto final
+	}
+
 	// Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
 	foreach (message) in responses.ERR.content {
 		say message
@@ -243,8 +252,43 @@ start:
 	goto final
 
 final:
-	//say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
+	// say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
   foreach (message) in responses.FINAL.content {
 		say message
 	}
+
+	say "algo_version : {{algo_version}}"
+	say "form_version : {{form_version}}"
+	say "date : {{date}}"
+	say "orientation : {{orientation}}"
+	say "duration : {{duration}}"
+	say "imc : {{imc}}"
+	say "temperature_cat : {{temperature_cat}}"
+	say "fever_algo : {{fever_algo}}"
+	say "heart_disease_algo : {{heart_disease_algo}}"
+	say "immunosuppressant_drug_algo : {{immunosuppressant_drug_algo}}"
+	say "fever : {{fever}}"
+	say "temp : {{temp}}"
+	say "cough : {{cough}}"
+	say "agueusia_anosmia : {{agueusia_anosmia}}"
+	say "sore_throat_aches : {{sore_throat_aches}}"
+	say "diarrhea : {{diarrhea}}"
+	say "tiredness : {{tiredness}}"
+	say "tiredness_details : {{tiredness_details}}"
+	say "feeding_day : {{feeding_day}}"
+	say "breathlessness : {{breathlessness}}"
+	say "age : {{age}}"
+	say "size : {{size}}"
+	say "weight : {{weight}}"
+	say "heart_disease : {{heart_disease}}"
+	say "diabetes : {{diabetes}}"
+	say "cancer : {{cancer}}"
+	say "breathing_disease : {{breathing_disease}}"
+	say "kidney_disease : {{kidney_disease}}"
+	say "liver_disease : {{liver_disease}}"
+	say "pregnant : {{pregnant}}"
+	say "immunosuppressant_disease : {{immunosuppressant_disease}}"
+	say "immunosuppressant_drug : {{immunosuppressant_drug}}"
+	say "postal_code : {{postal_code}}"
+
 	goto end
