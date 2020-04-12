@@ -1,11 +1,15 @@
 start:
+	if (!responses_20200330) goto flow responses_20200330
+
 	//////////////////////////////////////////////////////////////
 	// Initialisation et calculs des variables ///////////////////
 	//////////////////////////////////////////////////////////////
 	remember algo_version = "2020-03-30"
 	remember form_version = "2020-04-08"
-	remember date = starting_ts.iso
-	remember duration = ending_ts.now - starting_ts.now
+	if (starting_ts && ending_ts) {
+		remember date = starting_ts.iso
+		remember duration = ending_ts.now - starting_ts.now
+	}
 
 	// Calcul des variables de l'algo
 	// -- age range
@@ -90,7 +94,7 @@ start:
 	// ---- ou toux et douleurs
 	// ---- ou toux et anosmie
 	if (fever_algo == true ||
-		(cough == true && sore_throat_aches == false) ||
+		(cough == true && sore_throat_aches == true) ||
 		(cough == true && agueusia_anosmia == true) ||
 		(diarrhea == true)
 	) do symptomsLevel = 2
@@ -106,19 +110,21 @@ start:
 //////////////////////////////////////////////////////////////
 
 	if (age < 15) {
-		remember orientation = responses.FIN1.name
+		say "FIN1"
+		remember orientation = responses_20200330.FIN1.name
 		say "orientation: {{orientation}}"
-		foreach (message) in responses.FIN1.content {
+		foreach (message) in responses_20200330.FIN1.content {
 			say message
 		}
-		goto end
+		goto final
 	}
 
 	// Tout patient avec au moins un facteur de gravité majeur
 	if (fgmajeurs > 0) {
-		remember orientation = responses.FIN5.name
+		say "FIN5"
+		remember orientation = responses_20200330.FIN5.name
 		say "orientation: {{orientation}}"
-		foreach (message) in responses.FIN5.content {
+		foreach (message) in responses_20200330.FIN5.content {
 			say message
 		}
 		goto final
@@ -129,9 +135,10 @@ start:
 	if (symptomsLevel == 3) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			remember orientation = responses.FIN6.name
+			say "FIN6"
+			remember orientation = responses_20200330.FIN6.name
 			say "orientation: {{orientation}}"
-			foreach (message) in responses.FIN6.content {
+			foreach (message) in responses_20200330.FIN6.content {
 				say message
 			}
 			goto final
@@ -140,18 +147,20 @@ start:
 		if (hasNoPronosticFactors == false) {
 			// Si un ou deux facteurs de gravité mineurs
 			if (fgmineurs <= 1) {
-				remember orientation = responses.FIN6.name
+				say "FIN6"
+				remember orientation = responses_20200330.FIN6.name
 				say "orientation: {{orientation}}"
-				foreach (message) in responses.FIN6.content {
+				foreach (message) in responses_20200330.FIN6.content {
 					say message
 				}
 				goto final
 			}
 			// Avec au moins deux facteurs de gravité mineurs
 			if (fgmineurs > 1) {
-				remember orientation = responses.FIN4.name
+				say "FIN4"
+				remember orientation = responses_20200330.FIN4.name
 				say "orientation: {{orientation}}"
-				foreach (message) in responses.FIN4.content {
+				foreach (message) in responses_20200330.FIN4.content {
 					say message
 				}
 				goto final
@@ -167,16 +176,18 @@ start:
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
-					remember orientation = responses.FIN2.name
+					say "FIN2"
+					remember orientation = responses_20200330.FIN2.name
 					say "orientation: {{orientation}}"
-					foreach (message) in responses.FIN2.content {
+					foreach (message) in responses_20200330.FIN2.content {
 						say message
 					}
 					goto final
 				} else {
-					remember orientation = responses.FIN3.name
+					say "FIN3a"
+					remember orientation = responses_20200330.FIN3.name
 					say "orientation: {{orientation}}"
-					foreach (message) in responses.FIN3.content {
+					foreach (message) in responses_20200330.FIN3.content {
 						say message
 					}
 					goto final
@@ -184,9 +195,10 @@ start:
 			}
 			// Sinon (1 ou plusieurs facteurs de gravité mineurs)
 			else if (fgmineurs >= 1) {
-				remember orientation = responses.FIN3.name
+				say "FIN3b"
+				remember orientation = responses_20200330.FIN3.name
 				say "orientation: {{orientation}}"
-				foreach (message) in responses.FIN3.content {
+				foreach (message) in responses_20200330.FIN3.content {
 					say message
 				}
 				goto final
@@ -196,18 +208,20 @@ start:
 		if (hasNoPronosticFactors == false) {
 			// Si zéro ou un facteur de gravité mineur
 			if (fgmineurs < 2) {
-				remember orientation = responses.FIN3.name
+				say "FIN3c"
+				remember orientation = responses_20200330.FIN3.name
 				say "orientation: {{orientation}}"
-				foreach (message) in responses.FIN3.content {
+				foreach (message) in responses_20200330.FIN3.content {
 					say message
 				}
 				goto final
 			}
 			// Au moins deux facteurs de gravité mineurs
 			if (fgmineurs >= 2) {
-				remember orientation = responses.FIN4.name
+				say "FIN4"
+				remember orientation = responses_20200330.FIN4.name
 				say "orientation: {{orientation}}"
-				foreach (message) in responses.FIN4.content {
+				foreach (message) in responses_20200330.FIN4.content {
 					say message
 				}
 				goto final
@@ -219,16 +233,18 @@ start:
 	if (symptomsLevel == 1) {
 		// Au moins un facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			remember orientation = responses.FIN2.name
+			say "FIN2"
+			remember orientation = responses_20200330.FIN2.name
 			say "orientation: {{orientation}}"
-			foreach (message) in responses.FIN2.content {
+			foreach (message) in responses_20200330.FIN2.content {
 				say message
 			}
 			goto final
 		} else {
-			remember orientation = responses.FIN7.name
+			say "FIN7"
+			remember orientation = responses_20200330.FIN7.name
 			say "orientation: {{orientation}}"
-			foreach (message) in responses.FIN7.content {
+			foreach (message) in responses_20200330.FIN7.content {
 				say message
 			}
 			goto final
@@ -237,23 +253,24 @@ start:
 
 	// Patients avec aucun symptome
 	if (symptomsLevel == 0) {
-		remember orientation = responses.FIN8.name
+		say "FIN8"
+		remember orientation = responses_20200330.FIN8.name
 		say "orientation: {{orientation}}"
-		foreach (message) in responses.FIN8.content {
+		foreach (message) in responses_20200330.FIN8.content {
 			say message
 		}
 		goto final
 	}
 
 	// Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
-	foreach (message) in responses.ERR.content {
+	foreach (message) in responses_20200330.ERR.content {
 		say message
 	}
 	goto final
 
 final:
 	// say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
-  foreach (message) in responses.FINAL.content {
+  foreach (message) in responses_20200330.FINAL.content {
 		say message
 	}
 

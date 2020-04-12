@@ -1,36 +1,36 @@
 start:
-	if (done == 1) {
-		remember done = 0
-		goto end
-	}
-	remember done = 1
+	if (done == true) {
+	remember done = false
+	goto end
+}
+	remember done = true
 // 3.5 Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
 // Pas de facteur pronostique
 // Reponse : Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
 // Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile.
 
 
-	remember fever = 0
+	remember fever = false
 	remember temp = 37
-	remember cough = 1
-	remember agueusia_anosmia = 0
-	remember sore_throat_aches = 0
-	remember diarrhea = 0
-	remember tiredness = 0
-	remember tiredness_details = 0
-	remember feeding_day = 0
-	remember breathlessness = 0
+	remember cough = true
+	remember agueusia_anosmia = false
+	remember sore_throat_aches = false
+	remember diarrhea = false
+	remember tiredness = false
+	remember tiredness_details = false
+	remember feeding_day = false
+	remember breathlessness = false
 	remember age = 45
 	remember size = 183
 	remember weight = 83
-	remember heart_disease = 0
-	remember diabetes = 0
-	remember cancer = 0
-	remember breathing_disease = 0
-	remember kidney_disease = 0
-	remember liver_disease = 0
+	remember heart_disease = false
+	remember diabetes = false
+	remember cancer = false
+	remember breathing_disease = false
+	remember kidney_disease = false
+	remember liver_disease = false
 	remember pregnant = 0
-	remember immunosuppressant_disease = 0
-	remember immunosuppressant_drug = 0
+	remember immunosuppressant_disease = false
+	remember immunosuppressant_drug = false
 	remember postal_code = "92400"
 	goto flow diag_20200330_algo

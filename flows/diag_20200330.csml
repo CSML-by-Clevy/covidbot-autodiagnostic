@@ -493,9 +493,9 @@ q21:
 	goto bufferStep
 
 bufferStep:
-	if (done == 1) {
-		remember done = 0
+	if (done == true) {
+		remember done = false
 		goto end
 	}
-	remember done = 1
+	remember done = true
 	goto flow diag_20200330_algo
