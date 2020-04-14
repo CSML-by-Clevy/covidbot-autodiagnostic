@@ -1,57 +1,50 @@
 start:
-  remember responses = {
+  remember responses_20200330 = {
     "FIN1": {
       "name": "orientation_moins_de_15_ans",
       "content": [
-        "Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, *appelez le 15* 📞."
+        "Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, **appelez le 15** 📞."
       ]
     },
     "FIN2": {
       "name": "orientation_domicile_surveillance_1",
       "content": [
-        "*Votre situation peut relever d’un COVID 19 qu’il faut surveiller.*",
+        "⚠️ **Votre situation peut relever d’un COVID 19 qu’il faut surveiller.**",
         Typing(2000),
-        "Si de nouveaux symptômes apparaissent, *refaites le test ou consultez votre médecin*. Nous vous conseillons de rester à votre domicile."
+        "Si de nouveaux symptômes apparaissent, **refaites le test ou consultez votre médecin**. Nous vous conseillons de rester à votre domicile 🏡."
       ]
     },
     "FIN3": {
       "name": "orientation_consultation_surveillance_1",
       "content": [
-        "⚠️ *Votre situation peut relever d’un COVID 19.*",
+        "⚠️ **Votre situation peut relever d’un COVID 19.**",
         Typing(2000),
-        "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*",
+        "Demandez une **téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️**",
         Typing(2000),
-        "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+        "📞 **Appelez le 15** si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
       ]
     },
     "FIN4": {
       "name": "orientation_consultation_surveillance_2",
       "content": [
-        "*⚠️Votre situation peut relever d’un COVID 19 et nécessite un avis médical*",
+        "⚠️ **Votre situation peut relever d’un COVID 19.**",
         Typing(2000),
-        "*Ne vous déplacez pas au cabinet*, appelez pour demander conseil avant votre venue.",
+        "Demandez une **téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️**",
         Typing(2000),
-        "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un *service de téléconsultation*. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région.",
-        Url("https://maladiecoronavirus.fr/teleconsultation", text="Services de Téléconsultation"),
-        Url("https://maladiecoronavirus.fr/permanences", text="Permanences de soins ambulatoires par région (PDSA)"),
-        Typing(2000),
-        "📞 Appelez le *15* si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+        "Si vous n’arrivez pas à obtenir de consultation, **appelez le 15** 📞.",
+        Url("https://maladiecoronavirus.fr/teleconsultation", text="Services de Téléconsultation")
       ]
     },
     "FIN5": {
       "name": "orientation_SAMU",
       "content": [
-        "🚨 *Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide*.",
-        Typing(2000),
-        "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique.",
-        Typing(2000),
-        " *Composez le 15*. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
+        "🚨 **Appelez le 15, vos symptômes ou antécédents nécessitent un avis rapide**.",
       ]
     },
     "FIN6": {
       "name": "orientation_consultation_surveillance_3",
       "content": [
-        "⚠️ *Votre situation peut relever d’un COVID 19.*",
+        "⚠️ **Votre situation peut relever d’un COVID 19.**",
         Typing(2000),
         "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.).",
         Url("https://maladiecoronavirus.fr/teleconsultation", text="Services de Téléconsultation"),
@@ -61,32 +54,33 @@ start:
     "FIN7": {
       "name": "orientation_consultation_surveillance_4",
       "content": [
-        "Votre situation peut relever d’un COVID 19 qu’il faut surveiller.",
+        "⚠️ Votre situation peut relever d’un COVID 19 qu’il faut surveiller.",
         Typing(2000),
-        "Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile."
+        "Un avis médical est recommandé. Au moindre doute, appelez le 15. Nous vous conseillons de rester à votre domicile🏡."
       ]
     },
     "FIN8": {
       "name": "orientation_surveillance",
       "content": [
-        "*Votre situation ne relève probablement pas du Covid-19* ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. "
+        "**Votre situation ne relève probablement pas du Covid-19** ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. ",
+        "Pour toute information concernant le COVID 19, composer le 0 800 130 000."
       ]
     },
     "ERR": {
       "name": "N/A",
       "content": [
-        "Malheureusement, *nous n'avons pas assez de données pour vous réaliser un autodiagnostic*. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+        "Malheureusement, **nous n'avons pas assez de données pour vous réaliser un autodiagnostic**. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
       ]
     },
     "FINAL": {
       "name": "FINAL",
       "content": [
-        "Pour vous protéger et protéger les autres, dans la mesure du possible, *restez chez vous* et *limitez les contacts avec d'autres personnes.*",
+        "Pour vous protéger et protéger les autres, dans la mesure du possible, **restez chez vous** et **limitez les contacts avec d'autres personnes.**",
         Typing(2000),
         Url("https://covid19-medicaments.com", text="Pour vérifier si un médicament pourrait présenter un risque potentiel d'aggraver vos symptômes"),
         Url("https://www.gouvernement.fr/info-coronavirus", text="Vous avez des questions additionnelles, appelez le 0800 130 000, ou suivez l'actualité sur : ")
       ]
     }
   }
-  
+
   goto flow diag_20200330_algo
