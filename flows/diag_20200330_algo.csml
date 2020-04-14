@@ -1,5 +1,11 @@
 start:
+	goto checkResponses
+
+checkResponses:
 	if (!responses_20200330) goto flow responses_20200330
+	goto algo
+
+algo:
 
 	//////////////////////////////////////////////////////////////
 	// Initialisation et calculs des variables ///////////////////
@@ -8,7 +14,7 @@ start:
 	remember form_version = "2020-04-08"
 	if (starting_ts && ending_ts) {
 		remember date = starting_ts.iso
-		remember duration = ending_ts.now - starting_ts.now
+		remember duration = ending_ts.unix - starting_ts.unix
 	}
 
 	// Calcul des variables de l'algo
@@ -76,8 +82,7 @@ start:
 		diarrhea == false &&
 		tiredness == false &&
 		feeding_day == false &&
-		breathlessness == false &&
-		agueusia_anosmia == false
+		breathlessness == false
 	) do symptomsLevel = 0
 
 	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
@@ -111,7 +116,9 @@ start:
 //////////////////////////////////////////////////////////////
 
 	if (age < 15) {
+		say "FIN1"
 		remember orientation = responses_20200330.FIN1.name
+		say "orientation: {{orientation}}"
 		foreach (message) in responses_20200330.FIN1.content {
 			say message
 		}
@@ -120,7 +127,9 @@ start:
 
 	// Tout patient avec au moins un facteur de gravité majeur
 	if (fgmajeurs > 0) {
+		say "FIN5"
 		remember orientation = responses_20200330.FIN5.name
+		say "orientation: {{orientation}}"
 		foreach (message) in responses_20200330.FIN5.content {
 			say message
 		}
@@ -132,7 +141,9 @@ start:
 	if (symptomsLevel == 3) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
+			say "FIN6"
 			remember orientation = responses_20200330.FIN6.name
+			say "orientation: {{orientation}}"
 			foreach (message) in responses_20200330.FIN6.content {
 				say message
 			}
@@ -142,7 +153,9 @@ start:
 		if (hasNoPronosticFactors == false) {
 			// Si un ou deux facteurs de gravité mineurs
 			if (fgmineurs <= 1) {
+				say "FIN6"
 				remember orientation = responses_20200330.FIN6.name
+				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN6.content {
 					say message
 				}
@@ -150,7 +163,9 @@ start:
 			}
 			// Avec au moins deux facteurs de gravité mineurs
 			if (fgmineurs > 1) {
+				say "FIN4"
 				remember orientation = responses_20200330.FIN4.name
+				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN4.content {
 					say message
 				}
@@ -167,13 +182,17 @@ start:
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
+					say "FIN2"
 					remember orientation = responses_20200330.FIN2.name
+					say "orientation: {{orientation}}"
 					foreach (message) in responses_20200330.FIN2.content {
 						say message
 					}
 					goto final
 				} else {
+					say "FIN3a"
 					remember orientation = responses_20200330.FIN3.name
+					say "orientation: {{orientation}}"
 					foreach (message) in responses_20200330.FIN3.content {
 						say message
 					}
@@ -182,7 +201,9 @@ start:
 			}
 			// Sinon (1 ou plusieurs facteurs de gravité mineurs)
 			else if (fgmineurs >= 1) {
+				say "FIN3b"
 				remember orientation = responses_20200330.FIN3.name
+				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN3.content {
 					say message
 				}
@@ -193,7 +214,9 @@ start:
 		if (hasNoPronosticFactors == false) {
 			// Si zéro ou un facteur de gravité mineur
 			if (fgmineurs < 2) {
+				say "FIN3c"
 				remember orientation = responses_20200330.FIN3.name
+				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN3.content {
 					say message
 				}
@@ -201,7 +224,9 @@ start:
 			}
 			// Au moins deux facteurs de gravité mineurs
 			if (fgmineurs >= 2) {
+				say "FIN4"
 				remember orientation = responses_20200330.FIN4.name
+				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN4.content {
 					say message
 				}
@@ -214,13 +239,17 @@ start:
 	if (symptomsLevel == 1) {
 		// Au moins un facteur pronostique
 		if (hasNoPronosticFactors == true) {
+			say "FIN2"
 			remember orientation = responses_20200330.FIN2.name
+			say "orientation: {{orientation}}"
 			foreach (message) in responses_20200330.FIN2.content {
 				say message
 			}
 			goto final
 		} else {
+			say "FIN7"
 			remember orientation = responses_20200330.FIN7.name
+			say "orientation: {{orientation}}"
 			foreach (message) in responses_20200330.FIN7.content {
 				say message
 			}
@@ -230,7 +259,9 @@ start:
 
 	// Patients avec aucun symptome
 	if (symptomsLevel == 0) {
+		say "FIN8"
 		remember orientation = responses_20200330.FIN8.name
+		say "orientation: {{orientation}}"
 		foreach (message) in responses_20200330.FIN8.content {
 			say message
 		}
@@ -249,38 +280,39 @@ final:
 		say message
 	}
 
-	// say "algo_version : {{algo_version}}"
-	// say "form_version : {{form_version}}"
-	// say "date : {{date}}"
-	// say "orientation : {{orientation}}"
-	// say "duration : {{duration}}"
-	// say "imc : {{imc}}"
-	// say "temperature_cat : {{temperature_cat}}"
-	// say "fever_algo : {{fever_algo}}"
-	// say "heart_disease_algo : {{heart_disease_algo}}"
-	// say "immunosuppressant_drug_algo : {{immunosuppressant_drug_algo}}"
-	// say "fever : {{fever}}"
-	// say "temp : {{temp}}"
-	// say "cough : {{cough}}"
-	// say "agueusia_anosmia : {{agueusia_anosmia}}"
-	// say "sore_throat_aches : {{sore_throat_aches}}"
-	// say "diarrhea : {{diarrhea}}"
-	// say "tiredness : {{tiredness}}"
-	// say "tiredness_details : {{tiredness_details}}"
-	// say "feeding_day : {{feeding_day}}"
-	// say "breathlessness : {{breathlessness}}"
-	// say "age : {{age}}"
-	// say "size : {{size}}"
-	// say "weight : {{weight}}"
-	// say "heart_disease : {{heart_disease}}"
-	// say "diabetes : {{diabetes}}"
-	// say "cancer : {{cancer}}"
-	// say "breathing_disease : {{breathing_disease}}"
-	// say "kidney_disease : {{kidney_disease}}"
-	// say "liver_disease : {{liver_disease}}"
-	// say "pregnant : {{pregnant}}"
-	// say "immunosuppressant_disease : {{immunosuppressant_disease}}"
-	// say "immunosuppressant_drug : {{immunosuppressant_drug}}"
-	// say "postal_code : {{postal_code}}"
+
+	say "algo_version : {{algo_version}}"
+	say "form_version : {{form_version}}"
+	say "date : {{date}}"
+	say "orientation : {{orientation}}"
+	say "duration : {{duration}}"
+	say "imc : {{imc}}"
+	say "temperature_cat : {{temperature_cat}}"
+	say "fever_algo : {{fever_algo}}"
+	say "heart_disease_algo : {{heart_disease_algo}}"
+	say "immunosuppressant_drug_algo : {{immunosuppressant_drug_algo}}"
+	say "fever : {{fever}}"
+	say "temp : {{temp}}"
+	say "cough : {{cough}}"
+	say "agueusia_anosmia : {{agueusia_anosmia}}"
+	say "sore_throat_aches : {{sore_throat_aches}}"
+	say "diarrhea : {{diarrhea}}"
+	say "tiredness : {{tiredness}}"
+	say "tiredness_details : {{tiredness_details}}"
+	say "feeding_day : {{feeding_day}}"
+	say "breathlessness : {{breathlessness}}"
+	say "age : {{age}}"
+	say "size : {{size}}"
+	say "weight : {{weight}}"
+	say "heart_disease : {{heart_disease}}"
+	say "diabetes : {{diabetes}}"
+	say "cancer : {{cancer}}"
+	say "breathing_disease : {{breathing_disease}}"
+	say "kidney_disease : {{kidney_disease}}"
+	say "liver_disease : {{liver_disease}}"
+	say "pregnant : {{pregnant}}"
+	say "immunosuppressant_disease : {{immunosuppressant_disease}}"
+	say "immunosuppressant_drug : {{immunosuppressant_drug}}"
+	say "postal_code : {{postal_code}}"
 
 	goto end

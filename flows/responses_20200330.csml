@@ -69,7 +69,7 @@ start:
     "ERR": {
       "name": "N/A",
       "content": [
-        "Malheureusement, **nous n'avons pas assez de données pour vous réaliser un autodiagnostic**. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+        "Malheureusement, **nous n'avons pas assez de donnée pour que l'on puisse vous orienter**. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
       ]
     },
     "FINAL": {
@@ -83,4 +83,4 @@ start:
     }
   }
 
-  goto flow diag_20200330_algo
+  goto end

@@ -8,6 +8,7 @@ start:
 // Tout patient sans facteur pronostique :
 // Reponse : Votre situation peut relever d’un COVID 19.
 // Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)
+// FIN6
 
 	remember fever = true
 	remember temp = 38

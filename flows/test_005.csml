@@ -7,9 +7,11 @@ start:
 // 3.4 Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie))
 // Tout patient sans facteur pronostique
 // Si pas de facteur de gravité mineur
+// Si moins de 50 ans
 // Reponse :   Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
 // Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin.
 // Nous vous conseillons de rester à votre domicile.
+// FIN2
 
 	remember fever = false
 	remember temp = 37

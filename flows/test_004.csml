@@ -10,6 +10,7 @@ start:
 // Reponse :Votre situation peut relever d’un COVID 19.
 // Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
 // Si vous n'arrivez pas à obtenir de consultation, appelez le 15.
+// FIN4
 
 	remember fever = true
 	remember temp = 39

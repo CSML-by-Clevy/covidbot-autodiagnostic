@@ -6,9 +6,10 @@ start:
 	remember done = true
 // Tout patient avec fièvre et toux :
 // Tout patient avec un facteur pronostique ou plus
-// Si un ou deux facteurs de gravité mineurs
+// Si 0 ou 1 facteurs de gravité mineurs
 // Reponse : Votre situation peut relever d’un COVID 19.
 // Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)
+// FIN6
 
 	remember fever = true
 	remember temp = 38
@@ -17,7 +18,7 @@ start:
 	remember sore_throat_aches = false
 	remember diarrhea = false
 	remember tiredness = false
-	remember tiredness_details = true
+	remember tiredness_details = false
 	remember feeding_day = false
 	remember breathlessness = false
 	remember age = 45

@@ -8,7 +8,7 @@ start:
 // Au moins un facteur pronostique
 // Reponse :    Votre situation peut relever d’un COVID 19. Un avis médical est recommandé.
 // Au moindre doute, appelez le 15. Nous vous conseillons de rester à votre domicile.
-
+// FIN7
 
 	remember fever = false
 	remember temp = 37
@@ -29,7 +29,7 @@ start:
 	remember breathing_disease = false
 	remember kidney_disease = false
 	remember liver_disease = false
-	remember pregnant = 0
+	remember pregnant = false
 	remember immunosuppressant_disease = false
 	remember immunosuppressant_drug = false
 	remember postal_code = "92400"

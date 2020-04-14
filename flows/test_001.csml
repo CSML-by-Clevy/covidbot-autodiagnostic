@@ -6,6 +6,7 @@ start:
 	remember done = true
 // 3.2. Tout patient avec au moins un facteur de gravité majeur
 // Reponse : Appelez le 15.
+// FIN5
 
 	remember fever = false
 	remember temp = 37

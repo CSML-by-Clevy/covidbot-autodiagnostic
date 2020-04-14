@@ -8,7 +8,7 @@ start:
 // Pas de facteur pronostique
 // Reponse : Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
 // Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile.
-
+// FIN2
 
 	remember fever = false
 	remember temp = 37

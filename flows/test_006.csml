@@ -11,6 +11,7 @@ start:
 // Reponse :   Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
 // Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin.
 // Nous vous conseillons de rester à votre domicile.
+// FIN2
 
 	remember fever = false
 	remember temp = 37
@@ -22,7 +23,7 @@ start:
 	remember tiredness_details = false
 	remember feeding_day = false
 	remember breathlessness = false
-	remember age = 56
+	remember age = 45
 	remember size = 183
 	remember weight = 83
 	remember heart_disease = false

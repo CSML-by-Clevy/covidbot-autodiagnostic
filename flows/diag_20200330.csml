@@ -3,9 +3,6 @@ start:
   say Typing(2000)
 	say "⚠️ Attention, ce site d’information **n’est pas un dispositif médical**, il ne délivre pas d’avis médical."
 	say Typing(2000)
-	say "**🚨Information Importante 🚨** : la prise d'anti-inflammatoires (ibuprofène, cortisone ...) pourrait être un facteur d'aggravation de l’infection."
-	say "En cas de fièvre 🤒, prenez du paracétamol. Si vous êtes déjà sous anti-inflammatoires ou en cas de doute, demandez conseil à votre médecin 👨‍⚕️👩‍⚕️."
-  say Typing(3000)
 	say "**Avant de commencer, veuillez lire le préambule à l'utilisation du service :**"
 	say Url("https://bit.ly/préambule")
 	say Typing(2000)
@@ -257,7 +254,7 @@ q10:
 		say "Veuillez saisir une taille valide, entre 80 et 250 cm."
 		goto q10
 	}
-	if (parsedSize < 10) do normSize = parsedSize ** 100
+	if (parsedSize < 10) do normSize = parsedSize * 100
 	else do normSize = parsedSize
 	if (normSize.is_number() && normSize >= 80 && normSize <= 250) {
 		remember size = normSize
@@ -490,12 +487,4 @@ q21:
 		remember postal_code = event
 	}
   remember ending_ts = Fn("datetime", method="now")
-	goto bufferStep
-
-bufferStep:
-	if (done == true) {
-		remember done = false
-		goto end
-	}
-	remember done = true
 	goto flow diag_20200330_algo

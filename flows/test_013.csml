@@ -8,6 +8,7 @@ start:
 // Reponse :Votre situation ne relève probablement pas du COVID 19.
 // N’hésitez pas à contacter votre médecin en cas de doute.
 // Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation. Pour toute information concernant le COVID 19, composer le 0 800 130 000.
+// FIN8
 
 	remember fever = false
 	remember temp = 37
