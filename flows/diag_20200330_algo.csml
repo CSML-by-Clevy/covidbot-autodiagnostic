@@ -76,7 +76,8 @@ start:
 		diarrhea == false &&
 		tiredness == false &&
 		feeding_day == false &&
-		breathlessness == false
+		breathlessness == false &&
+		agueusia_anosmia == false
 	) do symptomsLevel = 0
 
 	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
