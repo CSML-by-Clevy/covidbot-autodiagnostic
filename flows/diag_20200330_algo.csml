@@ -37,7 +37,8 @@ start:
 		hasDiarrhea == 0 &&
 		hasFatigue == 0 &&
 		hasFeedStruggle == 0 &&
-		hasSOB == 0
+		hasSOB == 0 &&
+		hasNoTaste == 0
 	) do symptomsLevel = 0
 
 	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
@@ -142,7 +143,7 @@ start:
 				say Url("https://maladiecoronavirus.fr/permanences",
 					text="Permanences de soins ambulatoires par région (PDSA)")
 				say Typing(2000)
-				say "📞 Appelez le *15* si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				say "Si vous n'arrivez pas à obtenir de consultation, 📞 appelez le *15*."
 				goto final
 			}
 		}
@@ -204,7 +205,7 @@ start:
 		}
 	}
 	//Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
-	say "Malheureusement, *nous n'avons pas assez de donnée pour vous réaliser un autodiagnostic*. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+	say "Malheureusement, *nous n'avons pas assez de donnée pour que l'on puisse vous orienter*. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
 	goto final
 
 final:
