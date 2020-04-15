@@ -267,8 +267,8 @@ final:
 		say message
 	}
 
-
-	say "algo_version : {{algo_version}}"
+	// Liste des variables connues en fin d'algo
+	/*say "algo_version : {{algo_version}}"
 	say "form_version : {{form_version}}"
 	say "date : {{date}}"
 	say "postal_code : {{postal_code}}"
@@ -303,5 +303,6 @@ final:
 	say "immunosuppressant_drug : {{immunosuppressant_drug}}"
 	say "immunosuppressant_drug_algo : {{immunosuppressant_drug_algo}}"
 	say "immunosuppressant_disease_algo : {{immunosuppressant_disease_algo}}"
+	*/
 
 	goto end
