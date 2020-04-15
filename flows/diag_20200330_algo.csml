@@ -14,7 +14,7 @@ algo:
 	remember form_version = "2020-04-08"
 	if (starting_ts && ending_ts) {
 		remember date = starting_ts.iso
-		remember duration = ending_ts.unix - starting_ts.unix
+		remember duration = ending_ts.unix.to_float() / 1000 - starting_ts.unix.to_float() / 1000
 	}
 
 	// Calcul des variables de l'algo
@@ -26,7 +26,7 @@ algo:
 	else remember age_range = "N/A"
 	// -- température
 	// -- -- calcul de la categorie
-	if (temp < 35.5) remember temperature_cat = "inf_35.5"
+	if (temp > 0 && temp < 35.5) remember temperature_cat = "inf_35.5"
 	else if (temp >= 35.5 && temp <= 37.7) remember temperature_cat = "35.5-37.7"
 	else if (temp > 37.7 && temp < 39) remember temperature_cat = "37.8-38.9"
 	else if (temp >= 39) remember temperature_cat = "sup_39"
@@ -61,15 +61,15 @@ algo:
 	if (feeding_day == true) do fgmajeurs = fgmajeurs + 1
 
 	do hasNoPronosticFactors = (imc <= 30 &&
-		heart_disease == false &&
+		heart_disease_algo == false &&
 		diabetes == false &&
 		cancer == false &&
 		breathing_disease == false &&
 		kidney_disease == false &&
 		liver_disease == false &&
 		pregnant != 1 &&
-		immunosuppressant_disease != true &&
-		immunosuppressant_drug != true)
+		immunosuppressant_disease_algo != true &&
+		immunosuppressant_drug_algo != true)
 
 //////////////////////////////////////////////////////////////
 // CALCULS DES NIVEAUX DE SYMPTOMES //////////////////////////
@@ -116,9 +116,8 @@ algo:
 //////////////////////////////////////////////////////////////
 
 	if (age < 15) {
-		say "FIN1"
+		// say "FIN1"
 		remember orientation = responses_20200330.FIN1.name
-		say "orientation: {{orientation}}"
 		foreach (message) in responses_20200330.FIN1.content {
 			say message
 		}
@@ -127,9 +126,8 @@ algo:
 
 	// Tout patient avec au moins un facteur de gravité majeur
 	if (fgmajeurs > 0) {
-		say "FIN5"
+		// say "FIN5"
 		remember orientation = responses_20200330.FIN5.name
-		say "orientation: {{orientation}}"
 		foreach (message) in responses_20200330.FIN5.content {
 			say message
 		}
@@ -141,9 +139,8 @@ algo:
 	if (symptomsLevel == 3) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			say "FIN6"
+			// say "FIN6"
 			remember orientation = responses_20200330.FIN6.name
-			say "orientation: {{orientation}}"
 			foreach (message) in responses_20200330.FIN6.content {
 				say message
 			}
@@ -153,9 +150,8 @@ algo:
 		if (hasNoPronosticFactors == false) {
 			// Si un ou deux facteurs de gravité mineurs
 			if (fgmineurs <= 1) {
-				say "FIN6"
+				// say "FIN6"
 				remember orientation = responses_20200330.FIN6.name
-				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN6.content {
 					say message
 				}
@@ -163,9 +159,8 @@ algo:
 			}
 			// Avec au moins deux facteurs de gravité mineurs
 			if (fgmineurs > 1) {
-				say "FIN4"
+				// say "FIN4"
 				remember orientation = responses_20200330.FIN4.name
-				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN4.content {
 					say message
 				}
@@ -182,17 +177,15 @@ algo:
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
-					say "FIN2"
+					// say "FIN2"
 					remember orientation = responses_20200330.FIN2.name
-					say "orientation: {{orientation}}"
 					foreach (message) in responses_20200330.FIN2.content {
 						say message
 					}
 					goto final
 				} else {
-					say "FIN3a"
+					// say "FIN3a"
 					remember orientation = responses_20200330.FIN3.name
-					say "orientation: {{orientation}}"
 					foreach (message) in responses_20200330.FIN3.content {
 						say message
 					}
@@ -201,9 +194,8 @@ algo:
 			}
 			// Sinon (1 ou plusieurs facteurs de gravité mineurs)
 			else if (fgmineurs >= 1) {
-				say "FIN3b"
+				// say "FIN3b"
 				remember orientation = responses_20200330.FIN3.name
-				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN3.content {
 					say message
 				}
@@ -214,9 +206,8 @@ algo:
 		if (hasNoPronosticFactors == false) {
 			// Si zéro ou un facteur de gravité mineur
 			if (fgmineurs < 2) {
-				say "FIN3c"
+				// say "FIN3c"
 				remember orientation = responses_20200330.FIN3.name
-				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN3.content {
 					say message
 				}
@@ -224,9 +215,8 @@ algo:
 			}
 			// Au moins deux facteurs de gravité mineurs
 			if (fgmineurs >= 2) {
-				say "FIN4"
+				// say "FIN4"
 				remember orientation = responses_20200330.FIN4.name
-				say "orientation: {{orientation}}"
 				foreach (message) in responses_20200330.FIN4.content {
 					say message
 				}
@@ -239,17 +229,15 @@ algo:
 	if (symptomsLevel == 1) {
 		// Au moins un facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			say "FIN2"
+			// say "FIN2"
 			remember orientation = responses_20200330.FIN2.name
-			say "orientation: {{orientation}}"
 			foreach (message) in responses_20200330.FIN2.content {
 				say message
 			}
 			goto final
 		} else {
-			say "FIN7"
+			// say "FIN7"
 			remember orientation = responses_20200330.FIN7.name
-			say "orientation: {{orientation}}"
 			foreach (message) in responses_20200330.FIN7.content {
 				say message
 			}
@@ -259,9 +247,8 @@ algo:
 
 	// Patients avec aucun symptome
 	if (symptomsLevel == 0) {
-		say "FIN8"
+		// say "FIN8"
 		remember orientation = responses_20200330.FIN8.name
-		say "orientation: {{orientation}}"
 		foreach (message) in responses_20200330.FIN8.content {
 			say message
 		}
@@ -284,13 +271,13 @@ final:
 	say "algo_version : {{algo_version}}"
 	say "form_version : {{form_version}}"
 	say "date : {{date}}"
+	say "postal_code : {{postal_code}}"
 	say "orientation : {{orientation}}"
 	say "duration : {{duration}}"
 	say "imc : {{imc}}"
 	say "temperature_cat : {{temperature_cat}}"
 	say "fever_algo : {{fever_algo}}"
 	say "heart_disease_algo : {{heart_disease_algo}}"
-	say "immunosuppressant_drug_algo : {{immunosuppressant_drug_algo}}"
 	say "fever : {{fever}}"
 	say "temp : {{temp}}"
 	say "cough : {{cough}}"
@@ -302,6 +289,7 @@ final:
 	say "feeding_day : {{feeding_day}}"
 	say "breathlessness : {{breathlessness}}"
 	say "age : {{age}}"
+	say "age_range : {{age_range}}"
 	say "size : {{size}}"
 	say "weight : {{weight}}"
 	say "heart_disease : {{heart_disease}}"
@@ -313,6 +301,7 @@ final:
 	say "pregnant : {{pregnant}}"
 	say "immunosuppressant_disease : {{immunosuppressant_disease}}"
 	say "immunosuppressant_drug : {{immunosuppressant_drug}}"
-	say "postal_code : {{postal_code}}"
+	say "immunosuppressant_drug_algo : {{immunosuppressant_drug_algo}}"
+	say "immunosuppressant_disease_algo : {{immunosuppressant_disease_algo}}"
 
 	goto end

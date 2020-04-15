@@ -12,7 +12,7 @@ start:
 // Appelez le 15 si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures.
 // FIN3
 
-	remember fever = false
+	remember fever = 0
 	remember temp = 37
 	remember cough = true
 	remember agueusia_anosmia = true
@@ -25,14 +25,14 @@ start:
 	remember age = 45
 	remember size = 183
 	remember weight = 83
-	remember heart_disease = false
+	remember heart_disease = 0
 	remember diabetes = false
 	remember cancer = false
 	remember breathing_disease = false
 	remember kidney_disease = false
 	remember liver_disease = false
 	remember pregnant = false
-	remember immunosuppressant_disease = false
-	remember immunosuppressant_drug = false
+	remember immunosuppressant_disease = 0
+	remember immunosuppressant_drug = 0
 	remember postal_code = "92400"
 	goto flow diag_20200330_algo

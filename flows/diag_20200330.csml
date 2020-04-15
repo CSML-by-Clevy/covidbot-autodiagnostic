@@ -79,10 +79,10 @@ q2:
 		])
 	hold
 	if (event match btnyes) {
-		remember cough = 1
+		remember cough = true
 		goto q3
 	} else if (event match btnno) {
-		remember cough = 0
+		remember cough = false
 		goto q3
 	} else {
 		say "Veuillez s'il vous plait cliquer sur un des boutons."

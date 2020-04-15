@@ -12,7 +12,7 @@ start:
 // Si vous n'arrivez pas à obtenir de consultation, appelez le 15.
 // FIN4
 
-	remember fever = true
+	remember fever = 1
 	remember temp = 39
 	remember cough = true
 	remember agueusia_anosmia = false
@@ -25,14 +25,14 @@ start:
 	remember age = 45
 	remember size = 183
 	remember weight = 83
-	remember heart_disease = false
+	remember heart_disease = 0
 	remember diabetes = false
 	remember cancer = true
 	remember breathing_disease = false
 	remember kidney_disease = false
 	remember liver_disease = false
 	remember pregnant = 0
-	remember immunosuppressant_disease = false
-	remember immunosuppressant_drug = false
+	remember immunosuppressant_disease = 0
+	remember immunosuppressant_drug = 0
 	remember postal_code = "92400"
 	goto flow diag_20200330_algo
