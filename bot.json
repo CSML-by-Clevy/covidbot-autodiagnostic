@@ -1,6 +1,6 @@
 {
-  "id": "e8dfbcb9-d8d6-49ec-af85-57f348e40518",
-  "name": "PROD_autodiag_Workchat",
+  "id": "b5478fd0-dbba-43bd-a6f9-d4d0c4101ed6",
+  "name": "poepoe",
   "description": null,
   "default_flow": "Default",
   "tags": [],
@@ -18,6 +18,11 @@
     },
     {
       "name": "diag_20200330_algo",
+      "commands": [],
+      "tags": []
+    },
+    {
+      "name": "responses_20200330",
       "commands": [],
       "tags": []
     },
@@ -92,17 +97,20 @@
       "tags": []
     }
   ],
-  "files": [
-    {
-      "name": "préambule",
-      "description": null
-    },
-    {
-      "name": "preambuleV2",
-      "description": null
-    }
-  ],
   "functions": [
+    {
+      "name": "datetime",
+      "description": null,
+      "args": [
+        "method=\"now\""
+      ],
+      "import_url": null,
+      "runtime": "nodejs12.x",
+      "handler": "index.handler",
+      "environment": {},
+      "app_id": null,
+      "version": null
+    },
     {
       "name": "norm_units",
       "description": null,

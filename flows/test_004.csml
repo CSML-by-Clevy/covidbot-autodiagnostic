@@ -1,37 +1,38 @@
 start:
-	if (done == 1) {
-		remember done = 0
-		goto end
-	}
-	remember done = 1
+	if (done == true) {
+	remember done = false
+	goto end
+}
+	remember done = true
 // Tout patient avec fièvre et toux :
 // Tout patient avec un facteur pronostique ou plus
 // Avec au moins deux facteurs de gravité mineurs
 // Reponse :Votre situation peut relever d’un COVID 19.
 // Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile.
 // Si vous n'arrivez pas à obtenir de consultation, appelez le 15.
+// FIN4
 
-	remember hasTemp = 1
+	remember fever = 1
 	remember temp = 39
-	remember hasCaugh = 1
-	remember hasNoTaste = 0
-	remember hasPainfulThroatMuscle = 0
-	remember hasDiarrhea = 0
-	remember hasFatigue = 0
-	remember hasDailyNap = 1
-	remember hasFeedStruggle = 0
-	remember hasSOB = 0
+	remember cough = true
+	remember agueusia_anosmia = false
+	remember sore_throat_aches = false
+	remember diarrhea = false
+	remember tiredness = false
+	remember tiredness_details = true
+	remember feeding_day = false
+	remember breathlessness = false
 	remember age = 45
 	remember size = 183
 	remember weight = 83
-	remember hasCARDISSUE = 0
-	remember hasDiabetes = 0
-	remember hasCancer = 1
-	remember hasBreathingIllness = 0
-	remember hasKidneyFailure = 0
-	remember hasLiverIllness = 0
-	remember isPregnant = 0
-	remember hasImuneSystemFailure = 0
-	remember hasImmunosuppresseur = 0
-	remember location = "92400"
+	remember heart_disease = 0
+	remember diabetes = false
+	remember cancer = true
+	remember breathing_disease = false
+	remember kidney_disease = false
+	remember liver_disease = false
+	remember pregnant = 0
+	remember immunosuppressant_disease = 0
+	remember immunosuppressant_drug = 0
+	remember postal_code = "92400"
 	goto flow diag_20200330_algo

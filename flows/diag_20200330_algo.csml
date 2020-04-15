@@ -1,47 +1,95 @@
 start:
-	// CALCUL IMC
+	goto checkResponses
+
+checkResponses:
+	if (!responses_20200330) goto flow responses_20200330
+	goto algo
+
+algo:
+
+	//////////////////////////////////////////////////////////////
+	// Initialisation et calculs des variables ///////////////////
+	//////////////////////////////////////////////////////////////
+	remember algo_version = "2020-03-30"
+	remember form_version = "2020-04-08"
+	if (starting_ts && ending_ts) {
+		remember date = starting_ts.iso
+		remember duration = ending_ts.unix.to_float() / 1000 - starting_ts.unix.to_float() / 1000
+	}
+
+	// Calcul des variables de l'algo
+	// -- age range
+	if (age < 15) remember age_range = "inf_15"
+	else if (age >= 15 && age <= 49) remember age_range = "from_15_to_49"
+	else if (age >= 50 && age <= 69) remember age_range = "from_50_to_69"
+	else if (age >= 70) remember age_range = "sup_70"
+	else remember age_range = "N/A"
+	// -- température
+	// -- -- calcul de la categorie
+	if (temp > 0 && temp < 35.5) remember temperature_cat = "inf_35.5"
+	else if (temp >= 35.5 && temp <= 37.7) remember temperature_cat = "35.5-37.7"
+	else if (temp > 37.7 && temp < 39) remember temperature_cat = "37.8-38.9"
+	else if (temp >= 39) remember temperature_cat = "sup_39"
+	else remember temperature_cat = "NSP"
+	// -- -- calcul fievre
+	if (fever == 999 || (fever == 1 && (temperature_cat == "inf_35.5" || temperature_cat == "sup_39" || temperature_cat == "NSP"))) {
+		remember fever_algo = true
+	} else remember fever_algo = false
+	// -- IMC
 	do sizem = size.to_float() / 100
 	do sizem2 = sizem.pow(2)
 	remember imc = weight.to_float() / sizem2
+	// -- Maladie cardiaque (algo)
+	if (heart_disease == 1 || heart_disease == 999) remember heart_disease_algo = true
+	else remember heart_disease_algo = false
+	// -- Maladie défenses immunitaires (algo)
+	if (immunosuppressant_disease == 1) remember immunosuppressant_disease_algo = true
+	else remember immunosuppressant_disease_algo = false
+	// -- Traitement immunodépresseur (algo)
+	if (immunosuppressant_drug == 1) remember immunosuppressant_drug_algo = true
+	else remember immunosuppressant_drug_algo = false
 
 	// Facteurs de gravité mineurs
 	do fgmineurs = 0
 	if (temp >= 39) do fgmineurs = fgmineurs + 1
 	if (temp <= 35.4 && temp > 0) do fgmineurs = fgmineurs + 1
-	if (hasDailyNap == 1) do fgmineurs = fgmineurs + 1
+	if (tiredness_details == true) do fgmineurs = fgmineurs + 1
 
 	// Facteurs de gravité majeurs
 	do fgmajeurs = 0
-	if (hasSOB == 1) do fgmajeurs = fgmajeurs + 1
-	if (hasFeedStruggle == 1) do fgmajeurs = fgmajeurs + 1
+	if (breathlessness == true) do fgmajeurs = fgmajeurs + 1
+	if (feeding_day == true) do fgmajeurs = fgmajeurs + 1
 
 	do hasNoPronosticFactors = (imc <= 30 &&
-		hasCARDISSUE == 0 &&
-		hasDiabetes == 0 &&
-		hasCancer == 0 &&
-		hasBreathingIllness == 0 &&
-		hasKidneyFailure == 0 &&
-		hasLiverIllness == 0 &&
-		isPregnant != 1 &&
-		hasImuneSystemFailure != 1 &&
-		hasImmunosuppresseur != 1)
+		heart_disease_algo == false &&
+		diabetes == false &&
+		cancer == false &&
+		breathing_disease == false &&
+		kidney_disease == false &&
+		liver_disease == false &&
+		pregnant != 1 &&
+		immunosuppressant_disease_algo != true &&
+		immunosuppressant_drug_algo != true)
 
 //////////////////////////////////////////////////////////////
 // CALCULS DES NIVEAUX DE SYMPTOMES //////////////////////////
 //////////////////////////////////////////////////////////////
 
 	// Patients avec aucun symptome
-	if ((hasTemp == 0 || temp == 0 || (temp >= 35.5 && temp <= 37.7)) &&
-		hasCaugh == 0 &&
-		hasPainfulThroatMuscle == 0 &&
-		hasDiarrhea == 0 &&
-		hasFatigue == 0 &&
-		hasFeedStruggle == 0 &&
-		hasSOB == 0
+	if (fever_algo == false &&
+		cough == false &&
+		sore_throat_aches == false &&
+		diarrhea == false &&
+		tiredness == false &&
+		feeding_day == false &&
+		breathlessness == false
 	) do symptomsLevel = 0
 
 	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
-	if (hasCaugh + hasPainfulThroatMuscle + hasNoTaste == 1 && temp >= 35.5 && temp <= 37.7) {
+	if (fever_algo == false &&
+		(cough == true && sore_throat_aches == false && agueusia_anosmia == false) ||
+		(cough == false && sore_throat_aches == true && agueusia_anosmia == false) ||
+		(cough == false && sore_throat_aches == false && agueusia_anosmia == true)) {
 		do symptomsLevel = 1
 	}
 
@@ -51,14 +99,14 @@ start:
 	// ---- diarrhée
 	// ---- ou toux et douleurs
 	// ---- ou toux et anosmie
-	if (temp > 37.7 ||
-		(hasCaugh == 1 && hasPainfulThroatMuscle == 1) ||
-		(hasCaugh == 1 && hasNoTaste == 1) ||
-		(hasDiarrhea == 1)
+	if (fever_algo == true ||
+		(cough == true && sore_throat_aches == true) ||
+		(cough == true && agueusia_anosmia == true) ||
+		(diarrhea == true)
 	) do symptomsLevel = 2
 
 	// Tout patient avec fièvre et toux :
-	if (temp > 37.7 && hasCaugh == 1) do symptomsLevel = 3
+	if (temp > 37.7 && cough == true) do symptomsLevel = 3
 
 
 
@@ -68,85 +116,60 @@ start:
 //////////////////////////////////////////////////////////////
 
 	if (age < 15) {
-		say "Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. Cette application n’est pour l’instant pas adaptée aux personnes de moins de 15 ans. En cas d’urgence, *appelez le 15* 📞."
-		goto end
+		// say "FIN1"
+		remember orientation = responses_20200330.FIN1.name
+		foreach (message) in responses_20200330.FIN1.content {
+			say message
+		}
+		goto final
 	}
 
 	// Tout patient avec au moins un facteur de gravité majeur
 	if (fgmajeurs > 0) {
-		say " 🚨 *Appelez le 15, car vos symptômes ou antécédents nécessitent un avis rapide*."
-		say Typing(2000)
-		say "Les SAMU-centres 15 disposent des dernières procédures en vigueur dans votre zone géographique."
-		say Typing(2000)
-		say " *Composez le 15*. Une prise en charge adaptée à votre région et à votre état de santé vous sera proposée. Restez en ligne, le délai d'attente peut être exceptionnellement long."
-		goto final
-
-	}
-
-	if (symptomsLevel == 0) {
-		say "*Votre situation ne relève probablement pas du Covid-19* ✅ . N’hésitez pas à contacter votre médecin 👨‍⚕️ en cas de doute. Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation 👨‍⚕️. "
-		goto final
-	}
-
-	if (symptomsLevel == 1) {
-		// Au moins un facteur pronostique
-		if (hasNoPronosticFactors == false) {
-			say "⚠️ *Votre situation peut relever d’un COVID 19.*"
-			say Typing(2000)
-			say "Un avis médical est recommandé."
-			say Typing(2000)
-			say "Au moindre doute, appelez le 15. Nous vous conseillons de rester à votre domicile."
-			goto final
-		} else {
-			say "Votre situation peut relever d’un COVID 19 qu’il faut surveiller."
-			say Typing(2000)
-			say "Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin. Nous vous conseillons de rester à votre domicile."
-			goto final
+		// say "FIN5"
+		remember orientation = responses_20200330.FIN5.name
+		foreach (message) in responses_20200330.FIN5.content {
+			say message
 		}
+		goto final
+
 	}
 
+	// Tout patient avec fièvre et toux :
 	if (symptomsLevel == 3) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			say "⚠️ *Votre situation peut relever d’un COVID 19.*"
-			say Typing(2000)
-			say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)."
-			say Url("https://maladiecoronavirus.fr/teleconsultation",
-				text="Services de Téléconsultation")
-			say Url("https://maladiecoronavirus.fr/permanences",
-				text="Permanences de soins ambulatoires par région (PDSA)")
+			// say "FIN6"
+			remember orientation = responses_20200330.FIN6.name
+			foreach (message) in responses_20200330.FIN6.content {
+				say message
+			}
 			goto final
 		}
 		// Tout patient avec un facteur pronostique ou plus
 		if (hasNoPronosticFactors == false) {
 			// Si un ou deux facteurs de gravité mineurs
 			if (fgmineurs <= 1) {
-				say "⚠️ *Votre situation peut relever d’un COVID 19.*"
-				say Typing(2000)
-				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile (SOS médecins, etc.)."
-				say Url("https://maladiecoronavirus.fr/teleconsultation",
-					text="Services de Téléconsultation")
-				say Url("https://maladiecoronavirus.fr/permanences",
-					text="Permanences de soins ambulatoires par région (PDSA)")
+				// say "FIN6"
+				remember orientation = responses_20200330.FIN6.name
+				foreach (message) in responses_20200330.FIN6.content {
+					say message
+				}
 				goto final
 			}
 			// Avec au moins deux facteurs de gravité mineurs
 			if (fgmineurs > 1) {
-				say "*⚠️Votre situation peut relever d’un COVID 19 et nécessite un avis médical*"
-				say Typing(2000)
-				say "*Ne vous déplacez pas au cabinet*, appelez pour demander conseil avant votre venue."
-				say Typing(2000)
-				say "Pour rechercher un avis médical 👩‍⚕️👨‍⚕️, vous pouvez aussi utiliser un *service de téléconsultation*. Alternativement, nous avons essayé de réunir les contacts des permanences de soins ambulatoires de votre région."
-				say Url("https://maladiecoronavirus.fr/teleconsultation",
-					text="Services de Téléconsultation")
-				say Url("https://maladiecoronavirus.fr/permanences",
-					text="Permanences de soins ambulatoires par région (PDSA)")
-				say Typing(2000)
-				say "📞 Appelez le *15* si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+				// say "FIN4"
+				remember orientation = responses_20200330.FIN4.name
+				foreach (message) in responses_20200330.FIN4.content {
+					say message
+				}
 				goto final
 			}
 		}
 	}
+
+	// SI fièvre OU (pas de fièvre et (diarrhée OU (toux ET douleurs) OU (toux ET anosmie))
 	if (symptomsLevel == 2) {
 		// Tout patient sans facteur pronostique
 		if (hasNoPronosticFactors == true) {
@@ -154,67 +177,132 @@ start:
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
-					say "*Votre situation peut relever d’un COVID 19 qu’il faut surveiller.*"
-          			say Typing(2000)
-					say "Si de nouveaux symptômes apparaissent, *refaites le test ou consultez votre médecin*. Nous vous conseillons de rester à votre domicile."
+					// say "FIN2"
+					remember orientation = responses_20200330.FIN2.name
+					foreach (message) in responses_20200330.FIN2.content {
+						say message
+					}
 					goto final
 				} else {
-					say "⚠️ *Votre situation peut relever d’un COVID 19.*"
-					say Typing(2000)
-          			say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
-					say Typing(2000)
-          			say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
+					// say "FIN3a"
+					remember orientation = responses_20200330.FIN3.name
+					foreach (message) in responses_20200330.FIN3.content {
+						say message
+					}
 					goto final
 				}
 			}
 			// Sinon (1 ou plusieurs facteurs de gravité mineurs)
 			else if (fgmineurs >= 1) {
-					say "⚠️ *Votre situation peut relever d’un COVID 19.*"
-					say Typing(2000)
-          			say "Demandez une *téléconsultation ou un médecin généraliste ou une visite à domicile. 👨‍⚕️👩‍⚕️*"
-					say Typing(2000)
-			        say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour vous alimenter ou boire apparaissent pendant plus de 24 heures."
-					goto final
+				// say "FIN3b"
+				remember orientation = responses_20200330.FIN3.name
+				foreach (message) in responses_20200330.FIN3.content {
+					say message
 				}
+				goto final
+			}
 		}
 		// Tout patient avec un facteur pronostique ou plus
 		if (hasNoPronosticFactors == false) {
 			// Si zéro ou un facteur de gravité mineur
-			if (fgmineurs == 0) {
-				say "⚠️ *Votre situation peut relever d’un COVID 19.*"
-				say Typing(2000)
-				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile."
-				say Url("https://maladiecoronavirus.fr/teleconsultation",
-					text="Services de Téléconsultation")
-				say Url("https://maladiecoronavirus.fr/permanences",
-					text="Permanences de soins ambulatoires par région (PDSA)")
-				say Typing(2000)
-				say "📞 *Appelez le 15* si une gêne respiratoire ou des difficultés importantes pour s’alimenter ou boire pendant plus de 24h apparaissent."
+			if (fgmineurs < 2) {
+				// say "FIN3c"
+				remember orientation = responses_20200330.FIN3.name
+				foreach (message) in responses_20200330.FIN3.content {
+					say message
+				}
 				goto final
 			}
 			// Au moins deux facteurs de gravité mineurs
 			if (fgmineurs >= 2) {
-				say "⚠️ *Votre situation peut relever d’un COVID 19.*"
-				say Typing(2000)
-				say "Demandez une téléconsultation ou un médecin généraliste ou une visite à domicile."
-				say Typing(2000)
-				say "Si vous n'arrivez pas à obtenir de consultation, appelez le 15."
+				// say "FIN4"
+				remember orientation = responses_20200330.FIN4.name
+				foreach (message) in responses_20200330.FIN4.content {
+					say message
+				}
 				goto final
 			}
 		}
 	}
-	//Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
-	say "Malheureusement, *nous n'avons pas assez de donnée pour vous réaliser un autodiagnostic*. Prenez contact avec votre médecin généraliste au moindre doute 👨‍⚕️👩‍⚕️. En cas d’urgence, appeler le 15. 📞"
+
+	// Tout patient sans fièvre avec un seul symptôme parmi toux, douleurs, anosmie
+	if (symptomsLevel == 1) {
+		// Au moins un facteur pronostique
+		if (hasNoPronosticFactors == true) {
+			// say "FIN2"
+			remember orientation = responses_20200330.FIN2.name
+			foreach (message) in responses_20200330.FIN2.content {
+				say message
+			}
+			goto final
+		} else {
+			// say "FIN7"
+			remember orientation = responses_20200330.FIN7.name
+			foreach (message) in responses_20200330.FIN7.content {
+				say message
+			}
+			goto final
+		}
+	}
+
+	// Patients avec aucun symptome
+	if (symptomsLevel == 0) {
+		// say "FIN8"
+		remember orientation = responses_20200330.FIN8.name
+		foreach (message) in responses_20200330.FIN8.content {
+			say message
+		}
+		goto final
+	}
+
+	// Cette phrase est appelée lorsque le cas n'est pas couvert par l'algorithme
+	foreach (message) in responses_20200330.ERR.content {
+		say message
+	}
 	goto final
 
 final:
-	//say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
-  say Typing(2000)
-  say "Pour vous protéger et protéger les autres, dans la mesure du possible, *restez chez vous* et *limitez les contacts avec d'autres personnes.*"
-  say Typing(2000)
-  say Url("https://covid19-medicaments.com",
-    text="Pour vérifier si un médicament pourrait présenter un risque potentiel d'aggraver vos symptômes")
-  say Url("https://www.gouvernement.fr/info-coronavirus",
-    text="Vous avez des questions additionnelles, appelez le 0800 130 000, ou suivez l'actualité sur : ")
+	// say "Restez chez vous au maximum en attendant que les symptômes disparaissent. Prenez votre température deux fois par jour. Rappel des mesures d’hygiène."
+  foreach (message) in responses_20200330.FINAL.content {
+		say message
+	}
+
+	// Liste des variables connues en fin d'algo
+	/*say "algo_version : {{algo_version}}"
+	say "form_version : {{form_version}}"
+	say "date : {{date}}"
+	say "postal_code : {{postal_code}}"
+	say "orientation : {{orientation}}"
+	say "duration : {{duration}}"
+	say "imc : {{imc}}"
+	say "temperature_cat : {{temperature_cat}}"
+	say "fever_algo : {{fever_algo}}"
+	say "heart_disease_algo : {{heart_disease_algo}}"
+	say "fever : {{fever}}"
+	say "temp : {{temp}}"
+	say "cough : {{cough}}"
+	say "agueusia_anosmia : {{agueusia_anosmia}}"
+	say "sore_throat_aches : {{sore_throat_aches}}"
+	say "diarrhea : {{diarrhea}}"
+	say "tiredness : {{tiredness}}"
+	say "tiredness_details : {{tiredness_details}}"
+	say "feeding_day : {{feeding_day}}"
+	say "breathlessness : {{breathlessness}}"
+	say "age : {{age}}"
+	say "age_range : {{age_range}}"
+	say "size : {{size}}"
+	say "weight : {{weight}}"
+	say "heart_disease : {{heart_disease}}"
+	say "diabetes : {{diabetes}}"
+	say "cancer : {{cancer}}"
+	say "breathing_disease : {{breathing_disease}}"
+	say "kidney_disease : {{kidney_disease}}"
+	say "liver_disease : {{liver_disease}}"
+	say "pregnant : {{pregnant}}"
+	say "immunosuppressant_disease : {{immunosuppressant_disease}}"
+	say "immunosuppressant_drug : {{immunosuppressant_drug}}"
+	say "immunosuppressant_drug_algo : {{immunosuppressant_drug_algo}}"
+	say "immunosuppressant_disease_algo : {{immunosuppressant_disease_algo}}"
+	*/
 
 	goto end

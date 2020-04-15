@@ -1,9 +1,9 @@
 start:
-	if (done == 1) {
-		remember done = 0
-		goto end
-	}
-	remember done = 1
+	if (done == true) {
+	remember done = false
+	goto end
+}
+	remember done = true
 // 3.4 Tout patient avec fièvre ou (sans fièvre et avec (diarrhée ou (toux et douleurs) ou (toux et anosmie))
 // Tout patient sans facteur pronostique
 // Si pas de facteur de gravité mineur
@@ -11,28 +11,29 @@ start:
 // Reponse :   Votre situation peut relever d’un COVID 19 qu’il faut surveiller.
 // Si de nouveaux symptômes apparaissent, refaites le test ou consultez votre médecin.
 // Nous vous conseillons de rester à votre domicile.
+// FIN2
 
-	remember hasTemp = 0
+	remember fever = 0
 	remember temp = 37
-	remember hasCaugh = 1
-	remember hasNoTaste = 1
-	remember hasPainfulThroatMuscle = 0
-	remember hasDiarrhea = 0
-	remember hasFatigue = 0
-	remember hasDailyNap = 0
-	remember hasFeedStruggle = 0
-	remember hasSOB = 0
+	remember cough = true
+	remember agueusia_anosmia = true
+	remember sore_throat_aches = false
+	remember diarrhea = false
+	remember tiredness = false
+	remember tiredness_details = false
+	remember feeding_day = false
+	remember breathlessness = false
 	remember age = 45
 	remember size = 183
 	remember weight = 83
-	remember hasCARDISSUE = 0
-	remember hasDiabetes = 0
-	remember hasCancer = 0
-	remember hasBreathingIllness = 0
-	remember hasKidneyFailure = 0
-	remember hasLiverIllness = 0
-	remember isPregnant = 0
-	remember hasImuneSystemFailure = 0
-	remember hasImmunosuppresseur = 0
-	remember location = "92400"
+	remember heart_disease = 0
+	remember diabetes = false
+	remember cancer = false
+	remember breathing_disease = false
+	remember kidney_disease = false
+	remember liver_disease = false
+	remember pregnant = 0
+	remember immunosuppressant_disease = 0
+	remember immunosuppressant_drug = 0
+	remember postal_code = "92400"
 	goto flow diag_20200330_algo

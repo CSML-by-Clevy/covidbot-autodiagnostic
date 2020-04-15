@@ -1,35 +1,36 @@
 start:
-	if (done == 1) {
-		remember done = 0
-		goto end
-	}
-	remember done = 1
+	if (done == true) {
+	remember done = false
+	goto end
+}
+	remember done = true
 // 3.6 Tout patient sans fièvre ni aucun autre symptôme
 // Reponse :Votre situation ne relève probablement pas du COVID 19.
 // N’hésitez pas à contacter votre médecin en cas de doute.
 // Vous pouvez refaire le test en cas de nouveau symptôme pour réévaluer la situation. Pour toute information concernant le COVID 19, composer le 0 800 130 000.
+// FIN8
 
-	remember hasTemp = 0
+	remember fever = 0
 	remember temp = 37
-	remember hasCaugh = 0
-	remember hasNoTaste = 0
-	remember hasPainfulThroatMuscle = 0
-	remember hasDiarrhea = 0
-	remember hasFatigue = 0
-	remember hasDailyNap = 0
-	remember hasFeedStruggle = 0
-	remember hasSOB = 0
+	remember cough = false
+	remember agueusia_anosmia = false
+	remember sore_throat_aches = false
+	remember diarrhea = false
+	remember tiredness = false
+	remember tiredness_details = false
+	remember feeding_day = false
+	remember breathlessness = false
 	remember age = 45
 	remember size = 183
 	remember weight = 83
-	remember hasCARDISSUE = 0
-	remember hasDiabetes = 0
-	remember hasCancer = 0
-	remember hasBreathingIllness = 0
-	remember hasKidneyFailure = 0
-	remember hasLiverIllness = 0
-	remember isPregnant = 0
-	remember hasImuneSystemFailure = 0
-	remember hasImmunosuppresseur = 0
-	remember location = "92400"
+	remember heart_disease = 0
+	remember diabetes = false
+	remember cancer = false
+	remember breathing_disease = false
+	remember kidney_disease = false
+	remember liver_disease = false
+	remember pregnant = 0
+	remember immunosuppressant_disease = 0
+	remember immunosuppressant_drug = 0
+	remember postal_code = "92400"
 	goto flow diag_20200330_algo
