@@ -179,9 +179,9 @@ algo:
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
-					// say "FIN2"
-					remember orientation = responses_20200510.FIN2.name
-					foreach (message) in responses_20200510.FIN2.content {
+					// say "FIN6"
+					remember orientation = responses_20200510.FIN6.name
+					foreach (message) in responses_20200510.FIN6.content {
 						say message
 					}
 					goto final
