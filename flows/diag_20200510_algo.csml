@@ -10,8 +10,8 @@ algo:
 	//////////////////////////////////////////////////////////////
 	// Initialisation et calculs des variables ///////////////////
 	//////////////////////////////////////////////////////////////
-	remember algo_version = "2020-03-30"
-	remember form_version = "2020-04-08"
+	remember algo_version = "2020-05-10"
+	remember form_version = "2020-05-16"
 	if (starting_ts && ending_ts) {
 		remember date = starting_ts.iso
 		remember duration = ending_ts.unix.to_float() / 1000 - starting_ts.unix.to_float() / 1000
