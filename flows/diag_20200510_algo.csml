@@ -10,8 +10,8 @@ algo:
 	//////////////////////////////////////////////////////////////
 	// Initialisation et calculs des variables ///////////////////
 	//////////////////////////////////////////////////////////////
-	remember algo_version = "2020-03-30"
-	remember form_version = "2020-04-08"
+	remember algo_version = "2020-05-10"
+	remember form_version = "2020-05-16"
 	if (starting_ts && ending_ts) {
 		remember date = starting_ts.iso
 		remember duration = ending_ts.unix.to_float() / 1000 - starting_ts.unix.to_float() / 1000
@@ -21,8 +21,8 @@ algo:
 	// -- age range
 	if (age < 15) remember age_range = "inf_15"
 	else if (age >= 15 && age <= 49) remember age_range = "from_15_to_49"
-	else if (age >= 50 && age <= 69) remember age_range = "from_50_to_69"
-	else if (age >= 70) remember age_range = "sup_70"
+	else if (age >= 50 && age <= 64) remember age_range = "from_50_to_64"
+	else if (age >= 65) remember age_range = "sup_65"
 	else remember age_range = "N/A"
 	// -- température
 	// -- -- calcul de la categorie
@@ -60,7 +60,7 @@ algo:
 	if (breathlessness == true) do fgmajeurs = fgmajeurs + 1
 	if (feeding_day == true) do fgmajeurs = fgmajeurs + 1
 
-	do hasNoPronosticFactors = (imc <= 30 &&
+	do hasNoPronosticFactors = (imc < 30 &&
 		heart_disease_algo == false &&
 		diabetes == false &&
 		cancer == false &&
@@ -69,7 +69,8 @@ algo:
 		liver_disease == false &&
 		pregnant != 1 &&
 		immunosuppressant_disease_algo != true &&
-		immunosuppressant_drug_algo != true)
+		immunosuppressant_drug_algo != true && 
+		age < 65)
 
 //////////////////////////////////////////////////////////////
 // CALCULS DES NIVEAUX DE SYMPTOMES //////////////////////////
@@ -102,11 +103,12 @@ algo:
 	if (fever_algo == true ||
 		(cough == true && sore_throat_aches == true) ||
 		(cough == true && agueusia_anosmia == true) ||
+		(sore_throat_aches == true && agueusia_anosmia == true) ||
 		(diarrhea == true)
 	) do symptomsLevel = 2
 
 	// Tout patient avec fièvre et toux :
-	if (temp > 37.7 && cough == true) do symptomsLevel = 3
+	if (fever_algo == true && cough == true) do symptomsLevel = 3
 
 
 
@@ -177,9 +179,9 @@ algo:
 			if (fgmineurs == 0) {
 				// Si moins de 50 ans
 				if (age < 50) {
-					// say "FIN2"
-					remember orientation = responses_20200510.FIN2.name
-					foreach (message) in responses_20200510.FIN2.content {
+					// say "FIN6"
+					remember orientation = responses_20200510.FIN6.name
+					foreach (message) in responses_20200510.FIN6.content {
 						say message
 					}
 					goto final
@@ -229,9 +231,9 @@ algo:
 	if (symptomsLevel == 1) {
 		// Au moins un facteur pronostique
 		if (hasNoPronosticFactors == true) {
-			// say "FIN2"
-			remember orientation = responses_20200510.FIN2.name
-			foreach (message) in responses_20200510.FIN2.content {
+			// say "FIN6"
+			remember orientation = responses_20200510.FIN6.name
+			foreach (message) in responses_20200510.FIN6.content {
 				say message
 			}
 			goto final

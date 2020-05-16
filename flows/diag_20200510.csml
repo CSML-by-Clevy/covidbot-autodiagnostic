@@ -50,7 +50,7 @@ q1:
 		remember temp = 0
 		goto q2
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons."
+		say "Veuillez s'il vous plaît cliquer sur un des boutons."
 		goto q1
 	}
 
@@ -85,7 +85,7 @@ q2:
 		remember cough = false
 		goto q3
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons."
+		say "Veuillez s'il vous plaît cliquer sur un des boutons."
 		goto q2
 	}
 
@@ -104,7 +104,7 @@ q3:
 		remember agueusia_anosmia = false
 		goto q4
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q3
 	}
 
@@ -124,7 +124,7 @@ q4:
 		remember sore_throat_aches = false
 		goto q5
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q4
 	}
 
@@ -143,7 +143,7 @@ q5:
 		remember diarrhea = false
 		goto q6
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q5
 	}
 
@@ -163,7 +163,7 @@ q6:
 		remember tiredness_details = false
 		goto q7
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q6
 	}
 
@@ -182,7 +182,7 @@ q6bis:
 		remember tiredness_details = false
 		goto q7
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q6bis
 	}
 
@@ -201,7 +201,7 @@ q7:
 		remember feeding_day = false
 		goto q8
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q7
 	}
 
@@ -220,7 +220,7 @@ q8:
 		remember breathlessness = false
 		goto q9
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q8
 	}
 
@@ -236,10 +236,7 @@ q9:
 		remember age = parsedAge
 		goto q10
 	} else if (parsedAge <= 15 && parsedAge >= 0) {
-		say "En l'absence de recommandations connues pour les affections pédiatriques (de moins de 15 ans), il faut rechercher un avis médical pour tout symptôme sur les enfants. Si l'état de santé du patient semble inquiétant, appelez le 15."
-		goto end
-	} else if (parsedAge >= 100 && parsedAge <= 110) {
-		say "Au-delà d'un certain âge, nous ne sommes pas en mesure de fournir des recommendations fiables, il faut rechercher un avis médical pour tout symptôme. Si l'état de santé du patient semble inquiétant, appelez le 15."
+		say "Cette application n’est pas faite pour les personnes de moins de 15 ans. Prenez contact avec votre médecin généraliste au moindre doute. En cas d’urgence, appelez le 15."
 		goto end
 	} else {
 		say "Veuillez saisir un age valide."
@@ -247,7 +244,7 @@ q9:
 	}
 
 q10:
-	say "**10/21** : Quel est votre **taille** en centimetres (ex: 175) ? Afin de calculer l’indice de masse corporelle qui est un facteur influençant le risque de complications de l’infection."
+	say "**10/21** : Quel est votre **taille** en centimètres (ex: 175) ? Afin de calculer l’indice de masse corporelle qui est un facteur influençant le risque de complications de l’infection."
 	hold
 	do Fn("norm_units", string=event) as parsedSize
 	if (!parsedSize) {
@@ -299,7 +296,7 @@ q12:
 		remember heart_disease = 999
 		goto q13
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q12
 	}
 
@@ -318,7 +315,7 @@ q13:
 		remember diabetes = false
 		goto q14
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q13
 	}
 
@@ -337,7 +334,7 @@ q14:
 		remember cancer = false
 		goto q15
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q14
 	}
 
@@ -356,7 +353,7 @@ q15:
 		remember breathing_disease = false
 		goto q16
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q15
 	}
 
@@ -375,7 +372,7 @@ q16:
 		remember kidney_disease = false
 		goto q17
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q16
 	}
 
@@ -394,7 +391,7 @@ q17:
 		remember liver_disease = false
 		goto q18
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q17
 	}
 
@@ -417,7 +414,7 @@ q18:
 		remember pregnant = 888
 		goto q19
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q18
 	}
 
@@ -440,7 +437,7 @@ q19:
 		remember immunosuppressant_disease = 999
 		goto q20
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q19
 	}
 
@@ -463,7 +460,7 @@ q20:
 		remember immunosuppressant_drug = 999
 		goto q21
 	} else {
-		say "Veuillez s'il vous plait cliquer sur un des boutons"
+		say "Veuillez s'il vous plaît cliquer sur un des boutons"
 		goto q20
 	}
 
