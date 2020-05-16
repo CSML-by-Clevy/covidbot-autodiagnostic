@@ -31,4 +31,4 @@ start:
 	remember immunosuppressant_disease = 0
 	remember immunosuppressant_drug = 0
 	remember postal_code = "92400"
-	goto flow diag_20200330_algo
+	goto flow diag_20200510_algo
